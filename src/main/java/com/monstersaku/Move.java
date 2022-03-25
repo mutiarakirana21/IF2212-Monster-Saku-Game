@@ -47,30 +47,32 @@ public abstract class Move {
         this.ammunition = ammunition;
     }
 
-    public Move compareMove(Monster mon1, Move move1, Monster mon2, Move move2){
-        if(move1.getPriority() > move2.getPriority()){
-            return move1;
+    public Move compareMove(Monster mon1, Monster mon2, Move move2){
+        Move exfirst;
+        if(this.getPriority() > move2.getPriority()){
+            exfirst = this;
 
-        }else if(move1.getPriority() == move2.getPriority()){
+        }else if(this.getPriority() == move2.getPriority()){
             if(mon1.getStat().getSpeed() > mon2.getStat().getSpeed()){
-                return move1;
+                exfirst = this;
 
             }else if(mon1.getStat().getSpeed() == mon2.getStat().getSpeed()){
                 Random rand = new Random();
                 int first = rand.nextInt(2);
                 if(first == 0){
-                    return move1;
+                    exfirst = this;
                 }else{
-                    return move2;
+                    exfirst = move2;
                 }
 
             }else{
-                return move2;
+                exfirst = move2;
             }
 
         }else{
-            return move2;
+            exfirst = move2;
         }
+        return exfirst;
     }
 
 }
