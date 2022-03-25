@@ -8,4 +8,9 @@ public class SpecialMove extends Move{
         this.basePower = basePower;
     }
     
+    //getter
+    public int getBasePower(){
+        return this.basePower;
+    }
+    
 }

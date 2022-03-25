@@ -7,4 +7,9 @@ public class NormalMove extends Move {
         super(name, elementType, accuracy, priority, ammunition);
         this.basePower = basePower;
     }
+
+    //getter
+    public int getBasePower(){
+        return this.basePower;
+    }
 }
