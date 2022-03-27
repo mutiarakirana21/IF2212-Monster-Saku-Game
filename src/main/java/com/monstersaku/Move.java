@@ -81,8 +81,10 @@ public abstract class Move {
         return exfirst;
     }
 
-    //method buff
-    public void setAttackBuff(int attack){
+    //methods buff
+    Stats s = new Stats();
+
+    public void setAttackBuff(double attack){
         int x = this.getStatBuff();
         if(x==-4){
             attack = attack * 2/6;
@@ -103,6 +105,7 @@ public abstract class Move {
         }else if(x==4){
             attack = attack * 6/2;
         }
+        s.setAttack(attack);
     }
 
     public void setDefenseBuff(int defense){
@@ -126,6 +129,7 @@ public abstract class Move {
         }else if(x==4){
          defense = defense * 6/2;
         }
+        s.setDefense(defense);
     }
 
     public void setSpecialAttackBuff(int specialAttack){
@@ -149,6 +153,7 @@ public abstract class Move {
         }else if(x==4){
          specialAttack = specialAttack * 6/2;
         }
+        s.setSpecialAttack(specialAttack);
     }
 
     public void setSpecialDefenseBuff(int specialDefense){
@@ -172,6 +177,7 @@ public abstract class Move {
         }else if(x==4){
          specialDefense = specialDefense * 6/2;
         }
+        s.setSpecialDefense(specialDefense);
     }
 
     public void setSpecialSpeed(int speed){
@@ -195,5 +201,7 @@ public abstract class Move {
         }else if(x==4){
          speed = speed * 6/2;
         }
+        s.setSpeed(speed);
     }
+
 }
