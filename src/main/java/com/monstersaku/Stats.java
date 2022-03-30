@@ -10,6 +10,7 @@ public class Stats implements Condition {
     private double specialAttack;
     private double specialDefense;
     private double speed;
+    private int statBuff;
 
     // Constructor
     public Stats() {}
@@ -54,6 +55,10 @@ public class Stats implements Condition {
         return speed;
     }
 
+    public int getStatBuff() {
+        return statBuff;
+    }
+
     // Check if dead
     public boolean isHPZero() {
         return (healthPoint == 0);
@@ -85,5 +90,127 @@ public class Stats implements Condition {
         return number;
     }
     //number yang dihasilkan menunjukan kemungkinan monster skip ronde (co: number 1 monster skip, 234 tidak skip)
+
+     //methods buff
+
+     public void setAttackBuff(double attack){
+         int x = getStatBuff();
+         if(x==-4){
+             attack = attack * 2/6;
+         }else if(x==-3){
+             attack = attack * 2/5;
+         }else if(x==-2){
+             attack = attack * 2/4;
+         }else if(x==-1){
+             attack = attack * 2/3;
+         }else if(x==0){
+             attack = attack * 1;
+         }else if(x==1){
+             attack = attack * 3/2;
+         }else if(x==2){
+             attack = attack * 4/2;
+         }else if(x==3){
+             attack = attack * 5/2;
+         }else if(x==4){
+             attack = attack * 6/2;
+         }
+         setAttack(attack);
+     }
+ 
+     public void setDefenseBuff(int defense){
+         int x = getStatBuff();
+         if(x==-4){
+          defense = defense * 2/6;
+         }else if(x==-3){
+          defense = defense * 2/5;
+         }else if(x==-2){
+          defense = defense * 2/4;
+         }else if(x==-1){
+          defense = defense * 2/3;
+         }else if(x==0){
+          defense = defense * 1;
+         }else if(x==1){
+          defense = defense * 3/2;
+         }else if(x==2){
+          defense = defense * 4/2;
+         }else if(x==3){
+          defense = defense * 5/2;
+         }else if(x==4){
+          defense = defense * 6/2;
+         }
+         setDefense(defense);
+     }
+ 
+     public void setSpecialAttackBuff(int specialAttack){
+         int x = getStatBuff();
+         if(x==-4){
+          specialAttack = specialAttack * 2/6;
+         }else if(x==-3){
+          specialAttack = specialAttack * 2/5;
+         }else if(x==-2){
+          specialAttack = specialAttack * 2/4;
+         }else if(x==-1){
+          specialAttack = specialAttack * 2/3;
+         }else if(x==0){
+          specialAttack = specialAttack * 1;
+         }else if(x==1){
+          specialAttack = specialAttack * 3/2;
+         }else if(x==2){
+          specialAttack = specialAttack * 4/2;
+         }else if(x==3){
+          specialAttack = specialAttack * 5/2;
+         }else if(x==4){
+          specialAttack = specialAttack * 6/2;
+         }
+         setSpecialAttack(specialAttack);
+     }
+ 
+     public void setSpecialDefenseBuff(int specialDefense){
+         int x = getStatBuff();
+         if(x==-4){
+          specialDefense = specialDefense * 2/6;
+         }else if(x==-3){
+          specialDefense = specialDefense * 2/5;
+         }else if(x==-2){
+          specialDefense = specialDefense * 2/4;
+         }else if(x==-1){
+          specialDefense = specialDefense * 2/3;
+         }else if(x==0){
+          specialDefense = specialDefense * 1;
+         }else if(x==1){
+          specialDefense = specialDefense * 3/2;
+         }else if(x==2){
+          specialDefense = specialDefense * 4/2;
+         }else if(x==3){
+          specialDefense = specialDefense * 5/2;
+         }else if(x==4){
+          specialDefense = specialDefense * 6/2;
+         }
+         setSpecialDefense(specialDefense);
+     }
+ 
+     public void setSpecialSpeed(int speed){
+         int x = getStatBuff();
+         if(x==-4){
+          speed = speed * 2/6;
+         }else if(x==-3){
+          speed = speed * 2/5;
+         }else if(x==-2){
+          speed = speed * 2/4;
+         }else if(x==-1){
+          speed = speed * 2/3;
+         }else if(x==0){
+          speed = speed * 1;
+         }else if(x==1){
+          speed = speed * 3/2;
+         }else if(x==2){
+          speed = speed * 4/2;
+         }else if(x==3){
+          speed = speed * 5/2;
+         }else if(x==4){
+          speed = speed * 6/2;
+         }
+         setSpeed(speed);
+     }
 
 }
