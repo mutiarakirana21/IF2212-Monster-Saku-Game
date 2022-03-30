@@ -1,5 +1,7 @@
 package com.monstersaku;
 
+import java.util.Random;
+
 public class NormalMove extends Move {
     private int basePower;
 

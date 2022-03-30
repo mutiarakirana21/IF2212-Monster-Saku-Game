@@ -51,6 +51,19 @@ public class Monster {
     public double calculateDamage(Monster mon){
         double damage = moves.getBasePower();
     }
+
+    //calculate damage dari move
+    /*
+        public int damageCalc(Monster attacker, Monster defense){
+        int damage;
+        double min = 0.85;
+        double max = 1.0;
+        Random r = new Random();
+        double coef = min + (max - min) * r.nextDouble();
+        damage = basePower * ((attacker.getStat().getAttack()*)/(defense.getStat().getDefense()*)) * coef * elEff * burn;
+    }
+    */
+
     public void changeHP(Monster mon){
         double healthPoint = baseStats.getHealthPoint() - calculateDamage(mon);
         baseStats.setHealtPoint(healthPoint);
