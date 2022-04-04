@@ -54,10 +54,10 @@ public abstract class Move {
             exfirst = this;
 
         }else if(this.getPriority() == move2.getPriority()){
-            if(mon1.getStat().getSpeed() > mon2.getStat().getSpeed()){
+            if(mon1.getbaseStats().getSpeed() > mon2.getbaseStats().getSpeed()){
                 exfirst = this;
 
-            }else if(mon1.getStat().getSpeed() == mon2.getStat().getSpeed()){
+            }else if(mon1.getbaseStats().getSpeed() == mon2.getbaseStats().getSpeed()){
                 Random rand = new Random();
                 int first = rand.nextInt(2);
                 if(first == 0){

@@ -1,16 +1,16 @@
 package com.monstersaku;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Monster {
     private int idMons;
     private String name;
-    private List<ElementType> elemenTypes;
+    private ArrayList<ElementType> elemenTypes;
     private Stats baseStats;
-    private List<Move> moves;
+    private ArrayList<Move> moves;
 
-    public Monster(int idMons, String name, List<ElementType> elemenTypes, Stats baseStats, List<Move> moves){
+    public Monster(int idMons, String name, ArrayList<ElementType> elemenTypes, Stats baseStats, ArrayList<Move> moves){
         this.idMons = idMons;
         this.name = name;
         this.elemenTypes = elemenTypes;
@@ -24,13 +24,13 @@ public class Monster {
     public void setName(String name){
         this.name = name;
     }
-    public void setelmTypes(List<ElementType> elemenTypes){
+    public void setelmTypes(ArrayList<ElementType> elemenTypes){
         this.elemenTypes = elemenTypes;
     }
     public void setBS(Stats baseStats){
         this.baseStats = baseStats;
     }
-    public void setMoves(List<Move> moves){
+    public void setMoves(ArrayList<Move> moves){
         this.moves = moves;
     }
     public int getId(){
@@ -39,17 +39,21 @@ public class Monster {
     public String getName(){
         return name;
     }
-    public List<ElementType> getelemenTypes(){
+    public ArrayList<ElementType> getelemenTypes(){
         return elemenTypes;
     }
     public Stats getbaseStats(){
         return baseStats;
     }
-    public List<Move> getmoves(){
+    public ArrayList<Move> getMoves(){
         return moves;
     }
     public double calculateDamage(Monster mon){
         double damage = moves.getBasePower();
+    }
+
+    public void printMoves(){
+        this.getMoves().forEach((n) -> System.out.println(n));
     }
 
     //calculate damage dari move
