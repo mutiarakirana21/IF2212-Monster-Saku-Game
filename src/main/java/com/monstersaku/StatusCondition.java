@@ -1,6 +1,6 @@
 package com.monstersaku;
 
-public interface Condition {
+public interface StatusCondition {
     public void burn();
     public void poison();
     public int sleep();

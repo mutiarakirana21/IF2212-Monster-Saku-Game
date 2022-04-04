@@ -48,9 +48,9 @@ public class Monster {
     public ArrayList<Move> getMoves(){
         return moves;
     }
-    public double calculateDamage(Monster mon){
+    /*public double calculateDamage(Monster mon){
         double damage = moves.getBasePower();
-    }
+    }*/
 
     public void printMoves(){
         this.getMoves().forEach((n) -> System.out.println(n));
@@ -68,10 +68,10 @@ public class Monster {
     }
     */
 
-    public void changeHP(Monster mon){
+    /*public void changeHP(Monster mon){
         double healthPoint = baseStats.getHealthPoint() - calculateDamage(mon);
         baseStats.setHealtPoint(healthPoint);
-    }
+    }*/
     
     public boolean isMonsDead(){
         return (baseStats.getHealthPoint() == 0);

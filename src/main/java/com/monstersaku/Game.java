@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Game {
     
-    public void start(scanner scn) {
+    public void start(Scanner scn) {
 
     }
 

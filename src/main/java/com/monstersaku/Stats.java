@@ -1,7 +1,7 @@
 package com.monstersaku;
 import java.util.Random;
 
-public class Stats implements Condition {
+public class Stats implements StatusCondition {
     
     // Attribute
     private double healthPoint;
