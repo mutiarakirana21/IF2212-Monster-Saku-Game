@@ -46,15 +46,20 @@ public class Main {
         System.out.println("Masukkan nama pemain 2: ");
         String name2 = input.nextLine();
         Random rand = new Random();
-        int upperbound = 6;
+        int jumlahMons = listmonster.size();
+        int upperbound = jumlahMons;
         ArrayList<Monster> ListMonsP1 = new ArrayList<Monster>();
-
+        for (int i = 1; i<= 6; i++){
+            int monsterrand = rand.nextInt(upperbound);
+            ListMonsP1.add(listmonster.get(monsterrand));
+            System.out.printf("Player 1 mendapatkan monster : %s", listmonster.get(monsterrand));
+        }
         ArrayList<Monster> ListMonsP2 = new ArrayList<Monster>();
-
-
-
-
-
+        for (int i = 1; i<= 6; i++){
+            int monsterrand = rand.nextInt(upperbound);
+            ListMonsP2.add(listmonster.get(monsterrand));
+            System.out.printf("Player 2 mendapatkan monster : %s", listmonster.get(monsterrand));
+        }
         Player player1 = new Player(name1, ListMonsP1);
         Player player2 = new Player(name2, ListMonsP2);
         while(!(player1.isAllDead() && player2.isAllDead())){
