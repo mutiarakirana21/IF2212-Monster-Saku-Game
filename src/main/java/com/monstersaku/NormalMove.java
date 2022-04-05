@@ -14,4 +14,5 @@ public class NormalMove extends Move {
     public int getBasePower(){
         return this.basePower;
     }
+    
 }

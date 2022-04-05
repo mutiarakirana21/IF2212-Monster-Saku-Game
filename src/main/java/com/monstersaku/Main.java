@@ -62,6 +62,7 @@ public class Main {
         }
         Player player1 = new Player(name1, ListMonsP1);
         Player player2 = new Player(name2, ListMonsP2);
+
         //loop game
         while(!(player1.isAllDead() && player2.isAllDead())){
             //giliran player1
@@ -165,7 +166,15 @@ public class Main {
         }
     }
 
-    public static void useNormalMove (Monster source, Monster target, NormalMove move){
+    public static void useNormalMove (Monster source, Monster target, NormalMove move, Effectivity eff){
+        double ElementEffectivity = 1;
+        for (ElementType e : target.getelemenTypes()){
+            ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
+        }
+        double burn = 1;
+        if (source.getStatcon() == StatusCondition.BURN){
+
+        }
         float finaldamage = (float)Math.floor((move.getBasePower() * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * getEffectivity(source, target));
         Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
         if (HPBaru <= 0){

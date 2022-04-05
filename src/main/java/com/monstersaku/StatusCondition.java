@@ -1,11 +1,11 @@
 package com.monstersaku;
 
-public interface StatusCondition {
-    StatusCondition NOTHING = null;
-    public void burn();
-    public void poison();
-    public int sleep();
-    public int paralyze();
+public enum StatusCondition {
+    BURN,
+    POISON,
+    SLEEP,
+    PARALYZE,
+    NOTHING; 
 }
 
 /*

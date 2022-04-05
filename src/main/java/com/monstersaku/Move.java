@@ -75,5 +75,5 @@ public abstract class Move {
         }
         return exfirst;
     }
-
+    
 }
