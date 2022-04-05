@@ -16,7 +16,7 @@ public class Stats implements StatusCondition {
     public Stats() {}
 
     // Setter
-    public void setHealtPoint(double healthPoint) {
+    public void setHealthPoint(double healthPoint) {
         this.healthPoint = healthPoint;
     }
     public void setAttack(double attack) {

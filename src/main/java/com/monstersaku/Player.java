@@ -45,4 +45,19 @@ public class Player {
         }
         return isdead;
     }   
+
+    public void printMonsters(){
+        for(int i  = 0; i < 6; i++){
+            Monster monsterx = this.getListMon().get(i);
+            String monstername = monsterx.getName();
+            String status;
+            if(monsterx.isMonsDead()){
+                status = "Dead";
+            }else{
+                status = "Alive";
+            }
+            System.out.printf("%s, %s", monstername, status);
+        }
+    }
+    
 }
