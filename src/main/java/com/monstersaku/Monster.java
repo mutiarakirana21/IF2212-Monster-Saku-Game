@@ -1,7 +1,6 @@
 package com.monstersaku;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Monster {
     private int idMons;
@@ -9,6 +8,7 @@ public class Monster {
     private ArrayList<ElementType> elemenTypes;
     private Stats baseStats;
     private ArrayList<Move> moves;
+    private StatusCondition statcon;
 
     public Monster(int idMons, String name, ArrayList<ElementType> elemenTypes, Stats baseStats, ArrayList<Move> moves){
         this.idMons = idMons;
@@ -16,6 +16,7 @@ public class Monster {
         this.elemenTypes = elemenTypes;
         this.baseStats = baseStats;
         this.moves = moves;
+        this.statcon = StatusCondition.NOTHING;
     }
     // yang set list belom fix
     public void setidMons(int idMons){
@@ -33,6 +34,9 @@ public class Monster {
     public void setMoves(ArrayList<Move> moves){
         this.moves = moves;
     }
+    public void setStatcon (StatusCondition statcon){
+        this.statcon = statcon;
+    }
     public int getId(){
         return idMons;
     }
@@ -48,31 +52,12 @@ public class Monster {
     public ArrayList<Move> getMoves(){
         return moves;
     }
-    /*public double calculateDamage(Monster mon){
-        double damage = moves.getBasePower();
-    }*/
-
+    public StatusCondition getStatcon(){
+        return this.statcon;
+    }
     public void printMoves(){
         this.getMoves().forEach((n) -> System.out.println(n));
     }
-
-    //calculate damage dari move
-    /*
-        public int damageCalc(Monster attacker, Monster defense){
-        int damage;
-        double min = 0.85;
-        double max = 1.0;
-        Random r = new Random();
-        double coef = min + (max - min) * r.nextDouble();
-        damage = basePower * ((attacker.getStat().getAttack()*)/(defense.getStat().getDefense()*)) * coef * elEff * burn;
-    }
-    */
-
-    /*public void changeHP(Monster mon){
-        double healthPoint = baseStats.getHealthPoint() - calculateDamage(mon);
-        baseStats.setHealtPoint(healthPoint);
-    }*/
-    
     public boolean isMonsDead(){
         return (baseStats.getHealthPoint() == 0);
     }
