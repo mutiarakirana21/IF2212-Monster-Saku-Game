@@ -1,9 +1,10 @@
 package com.monstersaku;
 import java.util.Random;
 
-public class Stats implements StatusCondition {
+public class Stats{
     
     // Attribute
+    private double maxHP;
     private double healthPoint;
     private double attack;
     private double defense;
@@ -16,6 +17,9 @@ public class Stats implements StatusCondition {
     public Stats() {}
 
     // Setter
+    public void setMaxHP(double maxHP) {
+        this.maxHP = maxHP;
+    }
     public void setHealthPoint(double healthPoint) {
         this.healthPoint = healthPoint;
     }
@@ -36,6 +40,9 @@ public class Stats implements StatusCondition {
     }
 
     // Getter
+    public double getmaxHP(){
+        return this.maxHP;
+    }
     public double getHealthPoint() {
         return healthPoint;
     }

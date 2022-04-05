@@ -56,7 +56,12 @@ public class Monster {
         return this.statcon;
     }
     public void printMoves(){
-        this.getMoves().forEach((n) -> System.out.println(n));
+        for(int i = 0; i < this.getMoves().size(); i++){
+            Move movex = this.getMoves().get(i);
+            String movename = movex.getName();
+            int ammunution = movex.getAmmunition();
+            System.out.printf("%s, %d", movename, ammunution);
+        }
     }
     public boolean isMonsDead(){
         return (baseStats.getHealthPoint() == 0);

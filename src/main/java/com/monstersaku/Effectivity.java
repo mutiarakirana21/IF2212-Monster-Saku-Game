@@ -2,7 +2,7 @@ package com.monstersaku;
 
 import java.util.*;
 
-public class Effectivity{
+public class Effectivity {
     private HashMap<String, Double> ListEffectivity;
 
     public Effectivity(){
@@ -19,5 +19,4 @@ public class Effectivity{
         double effectivity = this.ListEffectivity.get(temp);
         return effectivity;
     }
-
 }
