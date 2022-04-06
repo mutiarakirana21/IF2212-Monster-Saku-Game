@@ -58,9 +58,18 @@ public class Monster {
     public void printMoves(){
         for(int i = 0; i < this.getMoves().size(); i++){
             Move movex = this.getMoves().get(i);
+            String movetype = null;
+            System.out.println("Move name, Move type, Ammuniton");
+            if(movex instanceof NormalMove){
+                movetype = "Normal";
+            }else if(movex instanceof SpecialMove){
+                movetype = "Special";
+            }else if(movex instanceof StatusMove){
+                movetype = "Status";
+            }
             String movename = movex.getName();
             int ammunution = movex.getAmmunition();
-            System.out.printf("%s, %d", movename, ammunution);
+            System.out.printf("%s, %s, %d\n", movename, movetype, ammunution);
         }
     }
     public boolean isMonsDead(){

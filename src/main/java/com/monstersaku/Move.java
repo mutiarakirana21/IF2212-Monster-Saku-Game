@@ -75,5 +75,9 @@ public abstract class Move {
         }
         return exfirst;
     }
+
+    public boolean isAmmunitionZero(){
+        return(ammunition == 0);
+    }
     
 }

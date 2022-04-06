@@ -51,13 +51,23 @@ public class Player {
             Monster monsterx = this.getListMon().get(i);
             String monstername = monsterx.getName();
             String status;
+            System.out.println("Monster, Status");
             if(monsterx.isMonsDead()){
                 status = "Dead";
             }else{
                 status = "Alive";
             }
-            System.out.printf("%s, %s", monstername, status);
+            System.out.printf("%s, %s\n", monstername, status);
         }
     }
     
+    public void printMonstersNotUsed(){
+        for(int i = 0; i < 6; i++){
+            Monster monsterx = this.getListMon().get(i);
+            //String monstername = monsterx.getName();
+            if(!monsterx.equals(this.getCurrentMonster())){
+                System.out.println(monsterx.getName());
+            }
+        }
+    }
 }

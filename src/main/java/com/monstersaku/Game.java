@@ -3,13 +3,14 @@ package com.monstersaku;
 import java.util.Scanner;
 
 public class Game {
-    
+    private static int turn;
+
     public void start(Scanner scn) {
 
     }
 
-    public void lisCommand() {
-        System.out.println("Pilih Comman yang ingin di jalankan");
+    public void listCommand() {
+        System.out.println("Pilih Command yang dapat di jalankan");
         System.out.println("[1] Pilih Attack");
         System.out.println("[2] Ganti Monster");
         System.out.println("[3] Help");
@@ -26,7 +27,7 @@ public class Game {
 
     // }
 
-    public void help() {
+    public static void help() {
         System.out.println("Cara memainkan game monster saku");
         System.out.println("Pertama pemain memiliki 6 monster");
         System.out.println("[1] Pilih Attack");
@@ -44,5 +45,17 @@ public class Game {
         } catch (IOException | InterruptedException ex) {
             System.out.println(ex);
         }
+    }
+
+    public static void exit(){
+        System.exit(0);
+    }
+    
+    public static int getTurn(){
+        return turn;
+    }
+
+    public static void incrTurn(){
+        turn++;
     }
 }

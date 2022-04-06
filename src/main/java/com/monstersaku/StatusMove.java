@@ -22,7 +22,7 @@ public class StatusMove extends Move{
         this.speedEffect = speedEffect;
     }
 
-    public Monster getTarget(){}
+    public Monster getTarget(){
         return this.target;
     }
 

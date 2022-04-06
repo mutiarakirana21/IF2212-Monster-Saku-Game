@@ -58,130 +58,139 @@ public class Main {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+
+        //disini harusnya ada main manu dulu kalo udah baru masuk sini
         Scanner input = new Scanner(System.in);
-        System.out.println("Masukkan nama pemain 1: ");
-        String name1 = input.nextLine();
-        System.out.println("Masukkan nama pemain 2: ");
-        String name2 = input.nextLine();
-        Random rand = new Random();
-        int jumlahMons = listmonster.size();
-        int upperbound = jumlahMons;
-        ArrayList<Monster> ListMonsP1 = new ArrayList<Monster>();
-        for (int i = 1; i<= 6; i++){
-            int monsterrand = rand.nextInt(upperbound);
-            ListMonsP1.add(listmonster.get(monsterrand));
-            System.out.printf("Player 1 mendapatkan monster : %s", listmonster.get(monsterrand));
-        }
-        ArrayList<Monster> ListMonsP2 = new ArrayList<Monster>();
-        for (int i = 1; i<= 6; i++){
-            int monsterrand = rand.nextInt(upperbound);
-            ListMonsP2.add(listmonster.get(monsterrand));
-            System.out.printf("Player 2 mendapatkan monster : %s", listmonster.get(monsterrand));
-        }
-        Player player1 = new Player(name1, ListMonsP1);
-        Player player2 = new Player(name2, ListMonsP2);
-
-        //loop game
-        while(!(player1.isAllDead() && player2.isAllDead())){
-
-            //giliran player1
-            System.out.println("Sekarang giliran " + player1.getName() + ".");
-            System.out.println("Apa yang ingin Anda lakukan?");
-            System.out.println("1. Menggunakan Move dari " + player1.getCurrentMonster().getName() + ".");
-            System.out.println("2. Mengganti monster.");
-            int action1 = input.nextInt();
-            Move p1chosenmove = new DefaultMove("jic"); //gatau ini just in case aja
-            Monster p1chosenmons = player1.getCurrentMonster(); //buat null aja harusnya ntar bisa pake exception 
-            if(action1 == 1){
-                //use move
-                p1chosenmove = chooseMove(player1 , input);
-            }else{
-                //switch monster
-                p1chosenmons = chooseMonster(player1, input);
+        String mainmenu = input.nextLine();
+        if(mainmenu.equals("Start Game")){
+            System.out.println("Masukkan nama pemain 1: ");
+            String name1 = input.nextLine();
+            System.out.println("Masukkan nama pemain 2: ");
+            String name2 = input.nextLine();
+            Random rand = new Random();
+            int jumlahMons = listmonster.size();
+            int upperbound = jumlahMons;
+            ArrayList<Monster> ListMonsP1 = new ArrayList<Monster>();
+            for (int i = 1; i<= 6; i++){
+                int monsterrand = rand.nextInt(upperbound);
+                ListMonsP1.add(listmonster.get(monsterrand));
+                System.out.printf("Player 1 mendapatkan monster : %s\n", listmonster.get(monsterrand));
             }
-
-            //giliran player 2
-            System.out.println("Sekarang giliran " + player2.getName() + ".");
-            System.out.println("Apa yang ingin Anda lakukan?");
-            System.out.println("1. Menggunakan Move dari " + player1.getCurrentMonster().getName() + ".");
-            System.out.println("2. Mengganti monster.");
-            int action2 = input.nextInt();
-            input.close();
-            Move p2chosenmove = new DefaultMove("jic");; //idem
-            Monster p2chosenmons = player2.getCurrentMonster(); //buat null aja harusnya ntar bisa pake exception 
-            if(action2 == 1){
-                //use move
-                p2chosenmove = chooseMove(player2, input);
-            }else{
-                //switch monster
-                p2chosenmons = chooseMonster(player2, input);
+            ArrayList<Monster> ListMonsP2 = new ArrayList<Monster>();
+            for (int i = 1; i<= 6; i++){
+                int monsterrand = rand.nextInt(upperbound);
+                ListMonsP2.add(listmonster.get(monsterrand));
+                System.out.printf("Player 2 mendapatkan monster : %s\n", listmonster.get(monsterrand));
             }
+            Player player1 = new Player(name1, ListMonsP1);
+            Player player2 = new Player(name2, ListMonsP2);
 
-            //battle
-            if(action1 == 1 && action2 == 1){
-                //p1 dan p2 move
-                Move firstmove = p1chosenmove.compareMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p2chosenmove);
-                if(firstmove == p1chosenmove){
-                    //p1 duluan
-                    useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), firstmove, listeff);
-                    //afterdamage
+            //loop game
+            while(!(player1.isAllDead() && player2.isAllDead())){
+
+                //giliran player1
+                System.out.println("Sekarang giliran " + player1.getName() + ".");
+                System.out.println("Apa yang ingin Anda lakukan?");
+                System.out.println("[1] Menggunakan Move dari " + player1.getCurrentMonster().getName() + ".");
+                System.out.println("[2] Mengganti monster.");
+                String action1 = input.nextLine();
+                Move p1chosenmove = new DefaultMove("jic"); //just in case
+                Monster p1chosenmons = player1.getCurrentMonster(); //buat null aja harusnya ntar bisa pake exception 
+                if(action1.equals("1")){
+                    //use move
+                    p1chosenmove = chooseMove(player1 , input);
+                }else if(action1.equals("2")){
+                    //switch monster
+                    p1chosenmons = chooseMonster(player1, input);
+                }else{
+                    ingameCommands(action1, player1, player2);
+                }
+
+                //giliran player 2
+                System.out.println("Sekarang giliran " + player2.getName() + ".");
+                System.out.println("Apa yang ingin Anda lakukan?");
+                System.out.println("[1] Menggunakan Move dari " + player1.getCurrentMonster().getName() + ".");
+                System.out.println("[2] Mengganti monster.");
+                String action2 = input.nextLine();
+                Move p2chosenmove = new DefaultMove("jic");; //idem
+                Monster p2chosenmons = player2.getCurrentMonster(); //buat null aja harusnya ntar bisa pake exception 
+                if(action2.equals("1")){
+                    //use move
+                    p2chosenmove = chooseMove(player2, input);
+                }else if(action2.equals("2")){
+                    //switch monster
+                    p2chosenmons = chooseMonster(player2, input);
+                }else{
+                    ingameCommands(action2, player1, player2);
+                }
+
+                //battle
+                if(action1.equals("1") && action2.equals("2")){
+                    //p1 dan p2 move
+                    Move firstmove = p1chosenmove.compareMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p2chosenmove);
+                    if(firstmove == p1chosenmove){
+                        //p1 duluan
+                        useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), firstmove, listeff);
+                        //afterdamage
+                        afterDamage(player1.getCurrentMonster());
+                        afterDamage(player2.getCurrentMonster());
+                        //kalo mati pilih monster baru
+                        if(player1.getCurrentMonster().isMonsDead()){
+                            Monster replacement = chooseMonster(player1, input);
+                            player1.switchCurrMonster(replacement);
+                        }else if(player2.getCurrentMonster().isMonsDead()){
+                            Monster replacement = chooseMonster(player2, input);
+                            player2.switchCurrMonster(replacement);
+                        }
+                    }else{
+                        //p2 duluan
+                        useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), (NormalMove) firstmove, listeff);
+                        //afterdamage
+                        afterDamage(player1.getCurrentMonster());
+                        afterDamage(player2.getCurrentMonster());
+                        //kalo mati pilih monster baru
+                        if(player1.getCurrentMonster().isMonsDead()){
+                            Monster replacement = chooseMonster(player1, input);
+                            player1.switchCurrMonster(replacement);
+                        }else if(player2.getCurrentMonster().isMonsDead()){
+                            Monster replacement = chooseMonster(player2, input);
+                            player2.switchCurrMonster(replacement);
+                        }
+                    }
+                }else if(action1.equals("1") && action2.equals("2")){
+                    //p1 move, p2 switch
+                    player2.switchCurrMonster(p2chosenmons);
+                    //pake movenya
+                    useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
                     afterDamage(player1.getCurrentMonster());
+                    //afterDamage(player2.getCurrentMonster());
+                    //kalo mati pilih monster baru
+                    if(player2.getCurrentMonster().isMonsDead()){
+                        Monster replacement = chooseMonster(player2, input);
+                        player2.switchCurrMonster(replacement);
+                    }
+                }else if(action1.equals("2") && action1.equals("2")){
+                    //p1 switch, p2 move
+                    player1.switchCurrMonster(p1chosenmons);
+                    //pake move
+                    useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
+                    //afterDamage(player1.getCurrentMonster());
                     afterDamage(player2.getCurrentMonster());
                     //kalo mati pilih monster baru
                     if(player1.getCurrentMonster().isMonsDead()){
                         Monster replacement = chooseMonster(player1, input);
                         player1.switchCurrMonster(replacement);
-                    }else if(player2.getCurrentMonster().isMonsDead()){
-                        Monster replacement = chooseMonster(player2, input);
-                        player2.switchCurrMonster(replacement);
                     }
                 }else{
-                    //p2 duluan
-                    useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), (NormalMove) firstmove, listeff);
-                    //afterdamage
-                    afterDamage(player1.getCurrentMonster());
-                    afterDamage(player2.getCurrentMonster());
-                    //kalo mati pilih monster baru
-                    if(player1.getCurrentMonster().isMonsDead()){
-                        Monster replacement = chooseMonster(player1, input);
-                        player1.switchCurrMonster(replacement);
-                    }else if(player2.getCurrentMonster().isMonsDead()){
-                        Monster replacement = chooseMonster(player2, input);
-                        player2.switchCurrMonster(replacement);
-                    }
+                    //p1 dan p2 switch
+                    player1.switchCurrMonster(p1chosenmons);
+                    player2.switchCurrMonster(p2chosenmons);
                 }
-            }else if(action1 == 1 && action2 == 2){
-                //p1 move, p2 switch
-                player2.switchCurrMonster(p2chosenmons);
-                //pake movenya
-                useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
-                afterDamage(player1.getCurrentMonster());
-                //afterDamage(player2.getCurrentMonster());
-                //kalo mati pilih monster baru
-                if(player2.getCurrentMonster().isMonsDead()){
-                    Monster replacement = chooseMonster(player2, input);
-                    player2.switchCurrMonster(replacement);
-                }
-            }else if(action1 == 2 && action1 == 1){
-                //p1 switch, p2 move
-                player1.switchCurrMonster(p1chosenmons);
-                //pake move
-                useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
-                //afterDamage(player1.getCurrentMonster());
-                afterDamage(player2.getCurrentMonster());
-                //kalo mati pilih monster baru
-                if(player1.getCurrentMonster().isMonsDead()){
-                    Monster replacement = chooseMonster(player1, input);
-                    player1.switchCurrMonster(replacement);
-                }
-            }else{
-                //p1 dan p2 switch
-                player1.switchCurrMonster(p1chosenmons);
-                player2.switchCurrMonster(p2chosenmons);
-            }
 
-            //separator turn
-            
+                //separator turn
+            }   
+        }else{
+            commands(mainmenu);
         }
     }
 
@@ -251,7 +260,7 @@ public class Main {
     public static void useStatusMove (Monster source, Monster target, StatusMove move){
         //kalo diri sendiri harusnya heal/ganti statsbuff
         if(move.getTarget() == )
-        //kalo enemy berarti pasang statcon/ngatuhin ststsbuff
+        //kalo enemy berarti pasang statcon/ngatuhin statsbuff
     }
 
     public static void useMove (Monster source, Monster target, Move move, Effectivity eff){
@@ -264,6 +273,7 @@ public class Main {
         }
         move.setAmmunition(move.getAmmunition() - 1);
     }
+
     public static void afterDamage(Monster affected){
         if(affected.getStatcon() == StatusCondition.BURN){
             double afterdamage = affected.getbaseStats().getmaxHP() * 0.125; 
@@ -284,10 +294,12 @@ public class Main {
         System.out.println("Monster manakah yang ingin digunakan?");
         current.printMonsters(); 
         String chosenmonster = input.nextLine();
-        Monster chosen = null;
+        Monster chosen = current.getCurrentMonster();
         for(Monster mons : current.getListMon()){
             if(chosenmonster.equals(mons.getName())){
-                chosen = mons;
+                if(!mons.isMonsDead()){
+                    chosen = mons;
+                }
             }
         }
         return chosen;
@@ -297,13 +309,45 @@ public class Main {
         System.out.println("Move manakah yang ingin digunakan?");
         current.getCurrentMonster().printMoves();
         String chosenmove = input.nextLine();
-        Move chosen = null;
+        Move chosen = new DefaultMove("jic2");
         for(Move move : current.getCurrentMonster().getMoves()){
             if (chosenmove.equals(move.getName())){
-                chosen = move;
+                if(!move.isAmmunitionZero()){
+                    chosen = move;
+                }
             }
         }
+
         return chosen;
+    }
+
+    public static void commands(String command){
+        if(command.equals("Help")){
+            Game.help();
+        }else if(command.equals("Exit")){
+            Game.exit();
+        }
+    }
+
+
+    public static void ingameCommands(String command, Player player1, Player player2){
+        if(command.equals("View Game Info")){
+            printGameInfo(player1, player2);
+        }else if(command.equals("View Monster Info")){
+            //view monster info belom paham
+        }else{
+            commands(command);
+        }
+    }
+
+    public static void printGameInfo(Player player1, Player player2){
+        System.out.printf("Turn dalam game ini : %d\n", Game.getTurn());
+        System.out.println("Current Monster " + player1.getName() + " : " + player1.getCurrentMonster().getName());
+        System.out.println("Current Monster " + player2.getName() + " : " + player2.getCurrentMonster().getName());
+        System.out.println("Monster dari " + player1.getName() + " yang sedang tidak bertarung : ");
+        player1.printMonstersNotUsed();
+        System.out.println("Monster dari " + player2.getName() + " yang sedang tidak bertarung : ");
+        player2.printMonstersNotUsed();
     }
 }
 
