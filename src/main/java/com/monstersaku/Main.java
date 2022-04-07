@@ -125,12 +125,13 @@ public class Main {
                 }
 
                 //battle
-                if(action1.equals("1") && action2.equals("2")){
+                if(action1.equals("1") && action2.equals("1")){
                     //p1 dan p2 move
                     Move firstmove = p1chosenmove.compareMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p2chosenmove);
                     if(firstmove == p1chosenmove){
                         //p1 duluan
                         useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), firstmove, listeff);
+                        useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), firstmove, listeff);
                         //afterdamage
                         afterDamage(player1.getCurrentMonster());
                         afterDamage(player2.getCurrentMonster());
@@ -144,7 +145,8 @@ public class Main {
                         }
                     }else{
                         //p2 duluan
-                        useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), (NormalMove) firstmove, listeff);
+                        useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), firstmove, listeff);
+                        useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), firstmove, listeff);
                         //afterdamage
                         afterDamage(player1.getCurrentMonster());
                         afterDamage(player2.getCurrentMonster());
@@ -163,25 +165,31 @@ public class Main {
                     //pake movenya
                     useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
                     afterDamage(player1.getCurrentMonster());
-                    //afterDamage(player2.getCurrentMonster());
-                    //kalo mati pilih monster baru
-                    if(player2.getCurrentMonster().isMonsDead()){
-                        Monster replacement = chooseMonster(player2, input);
-                        player2.switchCurrMonster(replacement);
-                    }
-                }else if(action1.equals("2") && action1.equals("2")){
-                    //p1 switch, p2 move
-                    player1.switchCurrMonster(p1chosenmons);
-                    //pake move
-                    useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
-                    //afterDamage(player1.getCurrentMonster());
                     afterDamage(player2.getCurrentMonster());
                     //kalo mati pilih monster baru
                     if(player1.getCurrentMonster().isMonsDead()){
                         Monster replacement = chooseMonster(player1, input);
                         player1.switchCurrMonster(replacement);
+                    }else if(player2.getCurrentMonster().isMonsDead()){
+                        Monster replacement = chooseMonster(player2, input);
+                        player2.switchCurrMonster(replacement);
                     }
-                }else{
+                }else if(action1.equals("2") && action2.equals("1")){
+                    //p1 switch, p2 move
+                    player1.switchCurrMonster(p1chosenmons);
+                    //pake move
+                    useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
+                    afterDamage(player1.getCurrentMonster());
+                    afterDamage(player2.getCurrentMonster());
+                    //kalo mati pilih monster baru
+                    if(player1.getCurrentMonster().isMonsDead()){
+                        Monster replacement = chooseMonster(player1, input);
+                        player1.switchCurrMonster(replacement);
+                    }else if(player2.getCurrentMonster().isMonsDead()){
+                        Monster replacement = chooseMonster(player2, input);
+                        player2.switchCurrMonster(replacement);
+                    }
+                }else if(action1.equals("2") && action2.equals("2")){
                     //p1 dan p2 switch
                     player1.switchCurrMonster(p1chosenmons);
                     player2.switchCurrMonster(p2chosenmons);
@@ -270,7 +278,7 @@ public class Main {
             useSpecialMove(source, target, (SpecialMove) move, eff);
         }else if(move instanceof StatusMove){
             useStatusMove(source, target, (StatusMove) move);
-        }
+        }//tambahin defaultmove
         move.setAmmunition(move.getAmmunition() - 1);
     }
 
