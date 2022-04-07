@@ -51,13 +51,14 @@ public class Player {
             Monster monsterx = this.getListMon().get(i);
             String monstername = monsterx.getName();
             String status;
-            System.out.println("Monster, Status");
+            Double HP = monsterx.getbaseStats().getHealthPoint();
+            System.out.println("Monster, HP, Status");
             if(monsterx.isMonsDead()){
                 status = "Dead";
             }else{
                 status = "Alive";
             }
-            System.out.printf("%s, %s\n", monstername, status);
+            System.out.printf("%s, %d, %s\n", monstername, HP, status);
         }
     }
     

@@ -23,12 +23,12 @@ public class Game {
     }
 
     // Command dalam battle
-    public void listCommand() {
-        System.out.println("Pilih Command yang ingin di jalankan");
+    public static void listCommand() {
+        System.out.println("Command yang dapat dijalankan");
         System.out.println("[1] Move");
         System.out.println("[2] Switch");
-        System.out.println("[3] View Monster Info");
-        System.out.println("[4] View Game Info");
+        System.out.println("[3] View Monster Info (khusus dalam game)");
+        System.out.println("[4] View Game Info (khusus dalam game)");
         System.out.println("[5] Help");
         System.out.println("[6] Exit");
     }
@@ -185,8 +185,14 @@ public class Game {
 
     public static void useStatusMove (Monster source, Monster target, StatusMove move){
         //kalo diri sendiri harusnya heal/ganti statsbuff
-        if(move.getTarget() == )
-        //kalo enemy berarti pasang statcon/ngatuhin statsbuff
+        if(move.getTarget().equals("OWN")){
+
+        }else if(move.getTarget().equals("ENEMY")){
+            //kalo enemy berarti pasang statcon/ngaruhin statsbuff
+
+        }else{
+
+        }
     }
 
     public static void useMove (Monster source, Monster target, Move move, Effectivity eff){
@@ -200,6 +206,7 @@ public class Game {
             useDefaultMove(source, target, move, eff);
         }
         move.setAmmunition(move.getAmmunition() - 1);
+
     }
 
     public static void afterDamage(Monster affected){
@@ -221,38 +228,54 @@ public class Game {
     public static Monster chooseMonster(Player current, Scanner input){
         System.out.println("Monster manakah yang ingin digunakan?");
         current.printMonsters(); 
-        String chosenmonster = input.nextLine();
+        boolean valid = false;
         Monster chosen = current.getCurrentMonster();
-        for(Monster mons : current.getListMon()){
-            if(chosenmonster.equals(mons.getName())){
-                if(!mons.isMonsDead()){
-                    chosen = mons;
+        do{
+            String chosenmonster = input.nextLine();
+            for(Monster mons : current.getListMon()){
+                if(chosenmonster.equals(mons.getName())){
+                    if(!mons.isMonsDead()){
+                        chosen = mons;
+                        valid = true;
+                    }
                 }
             }
-        }
+            if(!valid || chosen.isMonsDead()){
+                //kalo masukan monster tidak valid (tidak ada monsternya atau monsternya udah mati)
+                System.out.println("Monster tidak valid! Silakan pilih monster lain.");
+            }
+        }while (!valid);
         return chosen;
     }
 
     public static Move chooseMove(Player current, Scanner input){
         System.out.println("Move manakah yang ingin digunakan?");
         current.getCurrentMonster().printMoves();
-        String chosenmove = input.nextLine();
         Move chosen = new DefaultMove("jic2");
-        for(Move move : current.getCurrentMonster().getMoves()){
-            if (chosenmove.equals(move.getName())){
-                if(!move.isAmmunitionZero()){
-                    chosen = move;
+        boolean valid = false;
+        do{
+            String chosenmove = input.nextLine();
+            for(Move move : current.getCurrentMonster().getMoves()){
+                if (chosenmove.equals(move.getName())){
+                    if(!move.isAmmunitionZero()){
+                        chosen = move;
+                    }
                 }
             }
-        }
+            if(!valid || chosen.isAmmunitionZero()){
+                //kalo masukan move tidak valid (tidak ada movenya atau ammunition udah abis)
+                System.out.println("Move tidak valid! silakan pilih move lain");
+            }
+        }while(!valid);
         return chosen;
     }
 
     public static void commands(String command){
         if(command.equals("Help")){
-            Game.help();
+            help();
+            listCommand();
         }else if(command.equals("Exit")){
-            Game.exit();
+            exit();
         }
     }
 

@@ -1,7 +1,7 @@
 package com.monstersaku;
 
 public class StatusMove extends Move{
-    private Monster target;
+    private String target; //harusnya dari config ada
     private StatusCondition statcon;
     private int hpEffect;
     private int attackEffect;
@@ -22,7 +22,7 @@ public class StatusMove extends Move{
         this.speedEffect = speedEffect;
     }
 
-    public Monster getTarget(){
+    public String getTarget(){
         return this.target;
     }
 
