@@ -1,12 +1,10 @@
 package com.monstersaku;
 
-import java.util.Random;
-
 public class NormalMove extends Move {
     private int basePower;
 
-    public NormalMove(String name, ElementType elementType, int accuracy, int priority, int ammunition, int basePower){
-        super(name, elementType, accuracy, priority, ammunition);
+    public NormalMove(int id, String name, ElementType elementType, int accuracy, int priority, int ammunition, int basePower){
+        super(id, name, elementType, accuracy, priority, ammunition);
         this.basePower = basePower;
     }
 

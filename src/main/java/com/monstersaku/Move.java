@@ -3,6 +3,7 @@ package com.monstersaku;
 import java.util.Random;
 
 public abstract class Move {
+    private int id;
     private String name;
     private ElementType elementType;
     private int accuracy;
@@ -10,7 +11,8 @@ public abstract class Move {
     private int ammunition;
 
     //konstruktor move
-    public Move(String name, ElementType elementType, int accuracy, int priority, int ammunition){
+    public Move(int id, String name, ElementType elementType, int accuracy, int priority, int ammunition){
+        this.id = id;
         this.name = name; 
         this.elementType = elementType; 
         this.accuracy = accuracy; 
@@ -22,6 +24,10 @@ public abstract class Move {
     //public abstract void damageDone();
 
     //getter
+    public int getid(){
+        return this.id;
+    }
+
     public String getName(){
         return this.name;
     }

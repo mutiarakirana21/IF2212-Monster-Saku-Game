@@ -11,8 +11,8 @@ public class StatusMove extends Move{
     private int speedEffect;
 
 
-    public StatusMove(String name, ElementType elementType, int accuracy, int priority, int ammunition, Monster target, StatusCondition statcon, int hpEffect, int attackEffect, int defenseEffect, int spAttEffect, int spDefEffect, int speedEffect){
-        super(name, elementType, accuracy, priority, ammunition);
+    public StatusMove(int id, String name, ElementType elementType, int accuracy, int priority, int ammunition, String target, StatusCondition statcon, int hpEffect, int attackEffect, int defenseEffect, int spAttEffect, int spDefEffect, int speedEffect){
+        super(id, name, elementType, accuracy, priority, ammunition);
         this.target = target;
         this.hpEffect = hpEffect;
         this.attackEffect = attackEffect;
@@ -34,7 +34,7 @@ public class StatusMove extends Move{
         return this.attackEffect;
     }
 
-    public int getDefenseAttack(){
+    public int getDefenseEffect(){
         return this.defenseEffect;
     }
 

@@ -4,7 +4,7 @@ public class DefaultMove extends Move{
     private int basePower;
 
     public DefaultMove(String name){
-        super(name, ElementType.NORMAL, 100, 0, 999);
+        super(0, name, ElementType.NORMAL, 100, 0, 999);
         this.basePower = 50;
     }
 
