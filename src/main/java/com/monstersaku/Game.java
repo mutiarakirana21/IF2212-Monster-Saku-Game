@@ -223,19 +223,32 @@ public class Game {
             if (move.getStatusCondition() == StatusCondition.BURN){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.setStatcon(StatusCondition.BURN);
-
+                    System.out.println("Terkena status condition burn");
                 }else{
-
+                    System.out.println("Target telah memiliki status condition lain");
                 }
             }else if (move.getStatusCondition() == StatusCondition.POISON){
-
+                if (target.getStatcon() == StatusCondition.NOTHING){
+                    target.setStatcon(StatusCondition.POISON);
+                    System.out.println("Terkena status condition poison");
+                }else{
+                    System.out.println("Target telah memiliki status condition lain");
+                }
             }else if (move.getStatusCondition() == StatusCondition.PARALYZE){
-
+                if (target.getStatcon() == StatusCondition.NOTHING){
+                    target.setStatcon(StatusCondition.PARALYZE);
+                    System.out.println("Terkena status condition paralyze");
+                }else{
+                    System.out.println("Target telah memiliki status condition lain");
+                }
             }else if (move.getStatusCondition() == StatusCondition.SLEEP){
-
+                if (target.getStatcon() == StatusCondition.NOTHING){
+                    target.setStatcon(StatusCondition.SLEEP);
+                    System.out.println("Terkena status condition sleep");
+                }else{
+                    System.out.println("Target telah memiliki status condition lain");
+                }
             }
-        }else{
-
         }
     }
 
