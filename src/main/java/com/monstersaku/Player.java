@@ -1,7 +1,6 @@
 package com.monstersaku;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Player {
     private String name;
@@ -46,19 +45,22 @@ public class Player {
         return isdead;
     }   
 
-    public void printMonsters(){
+    public void printAvailableMonsters(){
+        System.out.println("Monster, HP, Status");
         for(int i  = 0; i < 6; i++){
             Monster monsterx = this.getListMon().get(i);
-            String monstername = monsterx.getName();
-            String status;
-            Double HP = monsterx.getbaseStats().getHealthPoint();
-            System.out.println("Monster, HP, Status");
-            if(monsterx.isMonsDead()){
-                status = "Dead";
-            }else{
-                status = "Alive";
+            if(!monsterx.isMonsDead()){
+                //nampilin monster yang masih hidup aja
+                String monstername = monsterx.getName();
+                String status;
+                Double HP = monsterx.getbaseStats().getHealthPoint();
+                if(monsterx.isMonsDead()){
+                    status = "Dead";
+                }else{
+                    status = "Alive";
+                }
+                System.out.printf("%s, %d, %s\n", monstername, HP, status);
             }
-            System.out.printf("%s, %d, %s\n", monstername, HP, status);
         }
     }
     

@@ -1,24 +1,29 @@
 package com.monstersaku;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Monster {
     private int idMons;
     private String name;
     private ArrayList<ElementType> elemenTypes;
     private Stats baseStats;
+    private ArrayList<Integer> Idmoves;
     private ArrayList<Move> moves;
     private StatusCondition statcon;
+    private int sleep;
 
-    public Monster(int idMons, String name, ArrayList<ElementType> elemenTypes, Stats baseStats, ArrayList<Move> moves){
+    public Monster(int idMons, String name, ArrayList<ElementType> elemenTypes, Stats baseStats){
         this.idMons = idMons;
         this.name = name;
         this.elemenTypes = elemenTypes;
         this.baseStats = baseStats;
-        this.moves = moves;
+        this.Idmoves = new ArrayList<Integer>();
+        this.moves = new ArrayList<Move>();
         this.statcon = StatusCondition.NOTHING;
+        this.sleep = 0;
     }
-    // yang set list belom fix
+    // setter
     public void setidMons(int idMons){
         this.idMons = idMons;
     }
@@ -37,6 +42,10 @@ public class Monster {
     public void setStatcon (StatusCondition statcon){
         this.statcon = statcon;
     }
+    public void setnumsleep(int value){
+        this.sleep = value;
+    }
+    //getter
     public int getId(){
         return idMons;
     }
@@ -49,30 +58,86 @@ public class Monster {
     public Stats getbaseStats(){
         return baseStats;
     }
+    public ArrayList<Integer> getIDmove(){
+        return this.Idmoves;
+    }
     public ArrayList<Move> getMoves(){
         return moves;
     }
     public StatusCondition getStatcon(){
         return this.statcon;
     }
-    public void printMoves(){
+    public int getnumsleep(){
+        return sleep;
+    }
+    
+    public void printAvailableMoves(){
+        System.out.println("Move name, Move type, Ammuniton");
         for(int i = 0; i < this.getMoves().size(); i++){
             Move movex = this.getMoves().get(i);
             String movetype = null;
-            System.out.println("Move name, Move type, Ammuniton");
-            if(movex instanceof NormalMove){
-                movetype = "Normal";
-            }else if(movex instanceof SpecialMove){
-                movetype = "Special";
-            }else if(movex instanceof StatusMove){
-                movetype = "Status";
+            if(!movex.isAmmunitionZero()){
+                //nampilin yg available aja
+                if(movex instanceof NormalMove){
+                    movetype = "Normal";
+                }else if(movex instanceof SpecialMove){
+                    movetype = "Special";
+                }else if(movex instanceof StatusMove){
+                    movetype = "Status";
+                }
+                String movename = movex.getName();
+                int ammunution = movex.getAmmunition();
+                System.out.printf("%s, %s, %d\n", movename, movetype, ammunution);
             }
-            String movename = movex.getName();
-            int ammunution = movex.getAmmunition();
-            System.out.printf("%s, %s, %d\n", movename, movetype, ammunution);
         }
     }
+
     public boolean isMonsDead(){
         return (baseStats.getHealthPoint() == 0);
     }
+
+    public boolean isAllMovesUnavailable(){
+        //return true kalau masih ada move yang available
+        boolean isunavailable = true;
+        for(Move movex : moves){
+            if(!movex.isAmmunitionZero()){
+                isunavailable = false;
+            }
+        }
+        return isunavailable;
+    }
+
+    //Status Condition Related Methods
+    public void nothing(){
+        statcon = StatusCondition.NOTHING;
+    }
+    public void burn(){
+        statcon = StatusCondition.BURN;
+    }
+    
+    public void poison(){
+        statcon = StatusCondition.POISON;
+    }
+    
+    public void sleep(){
+        Random dice = new Random();
+        int number = 1 + dice.nextInt(7);
+        sleep = number;
+        statcon = StatusCondition.SLEEP;
+    }
+    
+    public void sleepdecr(){
+        sleep--;
+        if(sleep == 0){
+            //udah di turn terakhir
+            statcon = StatusCondition.NOTHING;
+        }
+    }
+
+    public void paralyze(){
+        statcon = StatusCondition.PARALYZE;
+        baseStats.setSpeed(baseStats.getSpeed() / 2);
+    }
+    //number yang dihasilkan menunjukan kemungkinan monster skip ronde (co: number 1 monster skip, 234 tidak skip)
+
 }
