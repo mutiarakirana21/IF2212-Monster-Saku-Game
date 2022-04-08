@@ -20,6 +20,8 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<Monster> listmonster = new ArrayList<Monster>(); // menyimpan list monster dari csv
         Effectivity listeff = new Effectivity(); // menyimpan effectivity dari csv
+        ArrayList<Move> listmove = new ArrayList<Move>();
+        ArrayList<ElementType> listelementtype = new ArrayList<ElementType>();
         try {
             for (String fileName : CSV_FILE_PATHS) {
                 try {
@@ -39,6 +41,82 @@ public class Main {
                 } catch (Exception e) {
                     // do nothing
                 }
+            }
+            CSVReader fileMove1 = new CSVReader(new File(Main.class.getResource("configs/movepool.csv").toURI()), ";");
+            fileMove1.setSkipHeader(true);
+            List<String[]> line = fileMove1.read();
+            System.out.println("=========== CONTENT START ===========");
+            for (String[] row : line) {
+                Integer idmove = Integer.parseInt(row[0]);
+                String tipeMove = String.valueOf(row[1]);
+                String movename = row[2];
+                ElementType moveelementType = ElementType.valueOf(row[3]);
+                Integer accuracy = Integer.parseInt(row[4]);
+                Integer priority = Integer.parseInt(row[5]);
+                Integer ammunition = Integer.parseInt(row[6]);
+                String target = String.valueOf(row[7]);
+                if(tipeMove.equals("STATUS")){
+                    String moveeffect = row[8];
+                    String movestats = row[9];
+                    String[] arrofmovestats = movestats.split(",",6);
+                    Integer hp = Integer.parseInt(arrofmovestats[0]);
+                    Integer atk = Integer.parseInt(arrofmovestats[1]);
+                    Integer def = Integer.parseInt(arrofmovestats[2]);
+                    Integer spcatk = Integer.parseInt(arrofmovestats[3]);
+                    Integer spcdef = Integer.parseInt(arrofmovestats[4]);
+                    Integer speed = Integer.parseInt(arrofmovestats[5]);
+                    StatusMove statmove = new StatusMove(movename, moveelementType, accuracy, priority, ammunition, target, moveeffect, hp, atk, def, spcatk, spcdef, speed);
+                    listmove.add(statmove);
+                    // mov.printMove();  
+                }else{
+                    Double damage = Double.parseDouble(row[8]);
+                    Move move = new Move(movename, moveelementType, accuracy, priority, ammunition);
+                    listmove.add(move);
+                    // mov.printMove();
+                }
+                System.out.println();    
+            }
+            CSVReader csvReader1 = new CSVReader(new File(Main.class.getResource("configs/monsterpool.csv").toURI()), ";");
+            csvReader1.setSkipHeader(true);
+            List<String[]> lines1 = csvReader1.read();
+            System.out.println("=========== CONTENT START ===========");
+            for (String[] line1 : lines1) {
+                String stat = line1[3];
+                String[] arrofstats = stat.split(",",7);
+                ArrayList<Double> stats = new ArrayList<Double>();
+                for(String a : arrofstats){
+                    Double d = Double.parseDouble(a);
+                    // System.out.println(d);
+                    stats.add(d);
+                }
+                Stats basestats = new Stats(stats.get(0), stats.get(1),stats.get(2),stats.get(3),stats.get(4),stats.get(5));
+                ArrayList<ElementType> eltype = new ArrayList<ElementType>();
+                String eltaip = line1[2];
+                String[] arrofeltaip = eltaip.split(",",7);
+                for(String a : arrofeltaip){
+                    if(a.equals("FIRE")){
+                        eltype.add(ElementType.FIRE);
+                    }
+                    if(a.equals("NORMAL")){
+                        eltype.add(ElementType.NORMAL);
+                    }
+                    if(a.equals("GRASS")){
+                        eltype.add(ElementType.GRASS);
+                    }
+                    if(a.equals("WATER")){
+                        eltype.add(ElementType.WATER);
+                    }
+                }
+                String mov = line1[4];
+                String[] arrofmov = mov.split(",",7);
+                ArrayList<Move> monsmove = new ArrayList<Move>();
+                for(int i = 0; i < arrofmov.length; i++){
+                    monsmove.add(listmove.get(Integer.valueOf(arrofmov[i])-1));
+                }
+                System.out.println();
+                Integer idmons = Integer.parseInt(line1[0]);
+                Monster hoho = new Monster(idmons, line1[1], eltype, basestats, monsmove, "-");
+                listmonster.add(hoho);
             }
             CSVReader fileEfficiency = new CSVReader(new File(Main.class.getResource("configs/element-type-effectivity-chart.csv").toURI()), ";");
             fileEfficiency.setSkipHeader(true);
