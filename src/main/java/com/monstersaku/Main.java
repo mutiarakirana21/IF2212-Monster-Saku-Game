@@ -240,7 +240,7 @@ public class Main {
             game.newTurn(player1, player2);
             System.out.println("Sekarang giliran " + player1.getName() + ".");
             System.out.println("Apa yang ingin Anda lakukan?");
-            System.out.println("[1] Menggunakan Move dari " + player1.getCurrentMonster().getName() + ".");
+            System.out.println("[1] Menggunakan Move dari " + player2.getCurrentMonster().getName() + ".");
             System.out.println("[2] Mengganti monster (switch).");
             String action1 = game.ingamegetinput(input, player1, player2);
             Move p1chosenmove = null;
