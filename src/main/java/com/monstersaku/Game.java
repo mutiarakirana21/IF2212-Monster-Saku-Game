@@ -233,14 +233,14 @@ public class Game {
             HPBaru = 0.0;
             target.monsterDie();
         }
-        System.out.printf("%s terkena damage sebesar %.2f dari default move milik monster %.", target.getName(), finaldamage, source.getName());
+        System.out.printf("%s terkena damage sebesar %.2f dari default move milik monster %.\n", target.getName(), finaldamage, source.getName());
         source.getbaseStats().setHealthPoint(HPSource);
     }
 
     public void useStatusMove (Monster source, Monster target, StatusMove move){
         //kalo diri sendiri harusnya heal/ganti statsbuff
         if(move.getTarget().equals("OWN")){
-            double HP = move.getHPEffect() + (move.getHPEffect() * source.getbaseStats().getmaxHP());
+            double HP = source.getbaseStats().getmaxHP()+ (move.getHPEffect() * source.getbaseStats().getmaxHP());
             source.getbaseStats().setHealthPoint(HP);
             StatsBuff statsBuff = source.getbaseStats().getStatsBuff();
             statsBuff.setAttackBuff((int) statsBuff.getAttackBuff() + move.getAttackEffect());
@@ -309,17 +309,19 @@ public class Game {
     //Pilih monster
     public Monster chooseMonster(Player current, Player other, Scanner input){
         System.out.println(current.getName()); // diapus aja ntar
-        System.out.println("Monster manakah yang ingin digunakan?");
+        System.out.println("Monster manakah yang ingin digunakan? (masukkan IDnya)");
         current.printAvailableMonsters(); 
         boolean valid = false;
         Monster chosen = current.getCurrentMonster();
         do{
             String chosenmonster = input.nextLine();
+            Integer idchosenmons = Integer.valueOf(chosenmonster);
             for(Monster mons : current.getListMon()){
-                if((chosenmonster.toLowerCase()).equals(mons.getName().toLowerCase())){
+                if(idchosenmons == mons.getId()){
                     if(!mons.isMonsDead()){
                         chosen = mons;
                         valid = true;
+                        System.out.printf("%s memilih monster %s\n", current.getName(), chosen.getName());                    
                     }
                 }
             }
@@ -342,9 +344,12 @@ public class Game {
         boolean valid = false;
         do{
             String chosenmove = input.nextLine();
+            Integer idchosenmove = Integer.valueOf(chosenmove);
             for(Move move : current.getCurrentMonster().getMoves()){
-                if ((chosenmove.toLowerCase()).equals(move.getName().toLowerCase())){
+                if (idchosenmove == move.getid()){
                     chosen = move;
+                    valid = true;
+                    System.out.printf("%s memilih move %s\n", current.getName(), chosen.getName());
                 }
             }
             if(!valid){

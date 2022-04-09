@@ -157,14 +157,11 @@ public class Main {
                             stats[j] = Double.parseDouble(basestat1[j]);
                         }
                         Stats monstat = new Stats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]);
-                        Monster monsterp1 = new Monster(listmonster.get(id).getId(), listmonster.get(id).getName(), listmonster.get(id).getelemenTypes(), monstat);
-                        
+                        Monster monsterp1 = new Monster(listmonster.get(id), monstat);
+
                         for(String[] line2 : row2){
-                            System.out.println("1");
                             for(int move : monsterp1.getIDmove()){
-                                System.out.println("2");
                                 if (move == Integer.parseInt(line2[0]) - 1){
-                                    System.out.println("3");
                                     int ammunition = Integer.parseInt(line2[6]);
                                     String tipeMove = line2[1];
                                     if(tipeMove.equals("STATUS")){
@@ -180,8 +177,8 @@ public class Main {
                                 }
                             }
                         }
-                        DefaultMove defaultMove = new DefaultMove("jic");
-                        monsterp1.getMoves().add(defaultMove);
+                        //DefaultMove defaultMove = new DefaultMove("jic");
+                        //monsterp1.getMoves().add(defaultMove);
                         ListMonsP1.add(monsterp1);
                     }if(id == monsterrand2){
                         String[] basestat2 = line1[3].split(",", 10);
@@ -190,7 +187,7 @@ public class Main {
                             stats[j] = Double.parseDouble(basestat2[j]);
                         }
                         Stats monstat = new Stats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]);
-                        Monster monsterp2 = new Monster(listmonster.get(id).getId(), listmonster.get(id).getName(), listmonster.get(id).getelemenTypes(), monstat);
+                        Monster monsterp2 = new Monster(listmonster.get(id), monstat);
                         for(int move : monsterp2.getIDmove()){
                             for(String[] line2 : row2){
                                 if (move == Integer.parseInt(line2[0]) - 1){
@@ -209,8 +206,8 @@ public class Main {
                                 }
                             }
                         }
-                        DefaultMove defaultMove = new DefaultMove("jic");
-                        monsterp2.getMoves().add(defaultMove);
+                        // DefaultMove defaultMove = new DefaultMove("jic");
+                        // monsterp2.getMoves().add(defaultMove);
                         ListMonsP2.add(monsterp2);
                     }
                     id++;
@@ -277,7 +274,7 @@ public class Main {
             }
 
             //giliran player 2
-            System.out.println("Sekarang giliran " + player2.getName().toUpperCase() + ".");
+            System.out.println("\nSekarang giliran " + player2.getName().toUpperCase() + ".");
             System.out.println("Apa yang ingin Anda lakukan?");
             System.out.println("[1] Menggunakan Move dari " + player2.getCurrentMonster().getName() + ".");
             System.out.println("[2] Mengganti monster (switch).");
@@ -316,8 +313,8 @@ public class Main {
                 Move firstmove = p1chosenmove.compareMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p2chosenmove);
                 if(firstmove == p1chosenmove){
                     //p1 duluan
-                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), firstmove, listeff);
-                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), firstmove, listeff);
+                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
+                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
                     //afterdamage
                     game.afterEffect(player1);
                     game.afterEffect(player2);
@@ -333,8 +330,8 @@ public class Main {
                     }
                 }else{
                     //p2 duluan
-                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), firstmove, listeff);
-                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), firstmove, listeff);
+                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
+                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
                     //afterdamage
                     game.afterEffect(player1);
                     game.afterEffect(player2);

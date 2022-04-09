@@ -59,7 +59,7 @@ public class Player {
                 //nampilin monster yang masih hidup aja
                 String monstername = monsterx.getName();
                 Double HP = monsterx.getbaseStats().getHealthPoint();
-                System.out.printf("%s, %.2f\n", monstername, HP);
+                System.out.printf("[%d], %s, %.2f\n", monsterx.getId(), monstername, HP);
             }
         }
     }

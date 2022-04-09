@@ -25,6 +25,18 @@ public class Monster {
         this.dead = false;
         this.sleep = 0;
     }
+
+    public Monster(Monster monster, Stats monstat){
+        this.idMons = monster.getId();
+        this.name = monster.getName();
+        this.elemenTypes = monster.getelemenTypes();
+        this.baseStats = monster.getbaseStats();
+        this.Idmoves = monster.getIDmove();
+        this.moves = new ArrayList<Move>();
+        this.statcon = StatusCondition.NOTHING;
+        this.dead = false;
+        this.sleep = 0;
+    }
     // setter
     public void setidMons(int idMons){
         this.idMons = idMons;
