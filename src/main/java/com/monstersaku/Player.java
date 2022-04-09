@@ -36,6 +36,7 @@ public class Player {
     
     //switch current monster
     public void switchCurrMonster(Monster monster){
+        this.currentmons.getbaseStats().getStatsBuff().resetbuff();
         System.out.printf("%s mengganti monster %s menjadi %s.\n", this.name, this.currentmons.getName(), monster.getName());
         setCurrMonster(monster);
     }

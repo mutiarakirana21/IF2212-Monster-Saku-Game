@@ -155,6 +155,7 @@ public class Monster {
         if(sleep == 0){
             //udah di turn terakhir
             statcon = StatusCondition.NOTHING;
+            System.out.printf("Monster %s sudah bebas dari condition sleep. Silakan gunakan!", this.getName());
         }
     }
 
