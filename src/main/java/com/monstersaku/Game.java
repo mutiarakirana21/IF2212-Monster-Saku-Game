@@ -1,7 +1,6 @@
 package com.monstersaku;
 
 import java.util.Scanner;
-import java.io.IOException;
 import java.util.Random;
 
 public class Game {
@@ -33,7 +32,7 @@ public class Game {
         boolean start = false;
         do{
             String command = sc.nextLine();
-            if (command.equals("Start Game")){
+            if (command.toLowerCase().equals("start game")){
                 start = true;
             }else{
                 commands(command);
@@ -309,7 +308,7 @@ public class Game {
 
     //Pilih monster
     public Monster chooseMonster(Player current, Player other, Scanner input){
-        System.out.println(current.getName());
+        System.out.println(current.getName()); // diapus aja ntar
         System.out.println("Monster manakah yang ingin digunakan?");
         current.printAvailableMonsters(); 
         boolean valid = false;
@@ -317,7 +316,7 @@ public class Game {
         do{
             String chosenmonster = input.nextLine();
             for(Monster mons : current.getListMon()){
-                if(chosenmonster.equals(mons.getName())){
+                if((chosenmonster.toLowerCase()).equals(mons.getName().toLowerCase())){
                     if(!mons.isMonsDead()){
                         chosen = mons;
                         valid = true;
@@ -326,7 +325,7 @@ public class Game {
             }
             if(!valid){
                 //kalo masukan monster tidak valid (tidak ada monsternya)
-                if(chosenmonster.equals("Help") || chosenmonster.equals("Exit") || chosenmonster.equals("View Game Info") || chosenmonster.equals("View Monsters Info")){
+                if(chosenmonster.toLowerCase().equals("help") || chosenmonster.toLowerCase().equals("exit") || chosenmonster.toLowerCase().equals("view game info") || chosenmonster.toLowerCase().equals("view monsters info")){
                     ingameCommands(chosenmonster, current, other);
                 }else{
                     System.out.println("Monster tidak valid! Silakan pilih monster lain.");
@@ -344,12 +343,12 @@ public class Game {
         do{
             String chosenmove = input.nextLine();
             for(Move move : current.getCurrentMonster().getMoves()){
-                if (chosenmove.equals(move.getName())){
+                if ((chosenmove.toLowerCase()).equals(move.getName().toLowerCase())){
                     chosen = move;
                 }
             }
             if(!valid){
-                if(chosenmove.equals("Help") || chosenmove.equals("Exit") || chosenmove.equals("View Game Info") || chosenmove.equals("View Monsters Info")){
+                if(chosenmove.toLowerCase().equals("help") || chosenmove.toLowerCase().equals("exit") || chosenmove.toLowerCase().equals("view game info") || chosenmove.toLowerCase().equals("view monsters info")){
                     ingameCommands(chosenmove, current, other);
                 }
                 //kalo masukan move tidak valid (tidak ada movenya)
@@ -361,11 +360,11 @@ public class Game {
 
     //command lain dari yang diminta
     public void commands(String command){
-        if(command.equals("Help")){
+        if(command.toLowerCase().equals("help")){
             help();
             listCommand();
             space();;
-        }else if(command.equals("Exit")){
+        }else if(command.toLowerCase().equals("exit")){
             exit();
         }else{
             command = ("salah");
@@ -374,10 +373,10 @@ public class Game {
 
     //command dalam game
     public void ingameCommands(String command, Player player1, Player player2){
-        if(command.equals("View Game Info")){
+        if(command.toLowerCase().equals("view game info")){
             printGameInfo(player1, player2);
             space();
-        }else if(command.equals("View Monster Info")){
+        }else if(command.toLowerCase().equals("view monster info")){
             viewMonstersInfo(player1, player2);
             space();
         }else{
@@ -400,8 +399,9 @@ public class Game {
     public void newTurn(Player player1, Player player2) {
         System.out.printf("ROUND %d\n", turn);
         System.out.println("FIGHT\n");
-        System.out.printf("Monster yang sedang dimainkan %s : %s dengan HP = ", player1.getName(), player1.getCurrentMonster().getName(), player1.getCurrentMonster().getbaseStats().getHealthPoint());
-        System.out.printf("Monster yang sedang dimainkan %s : %s dengan HP = ", player1.getName(), player1.getCurrentMonster().getName(), player1.getCurrentMonster().getbaseStats().getHealthPoint());
+        System.out.printf("Monster yang sedang dimainkan %s : %s dengan HP = %.2f\n", player1.getName(), player1.getCurrentMonster().getName(), player1.getCurrentMonster().getbaseStats().getHealthPoint());
+        System.out.printf("Monster yang sedang dimainkan %s : %s dengan HP = %.2f\n", player2.getName(), player2.getCurrentMonster().getName(), player2.getCurrentMonster().getbaseStats().getHealthPoint());
+        space();
     }
 
     //akhir turn mencetak status game saat ini
@@ -417,7 +417,7 @@ public class Game {
         String input = null;
         do{
             input = scan.nextLine();
-            if(input.equals("Help") || input.equals("Exit") || input.equals("View Game Info") || input.equals("View Monsters Info") || input.equals("1")|| (input.equals("2"))){
+            if(input.toLowerCase().equals("help") || input.toLowerCase().equals("exit") || input.toLowerCase().equals("view game info") || input.toLowerCase().equals("view monsters info") || input.equals("1")|| (input.equals("2"))){
                 valid = true;
             }else{
                 System.out.println("Command tidak valid! Silakan masukkan command lain.");

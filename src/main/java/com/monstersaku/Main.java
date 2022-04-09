@@ -3,19 +3,12 @@ package com.monstersaku;
 import com.monstersaku.util.CSVReader;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 
 public class Main {
-    private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
-            "configs/monsterpool.csv",
-            "configs/movepool.csv",
-            "configs/element-type-effectivity-chart.csv"));
-
     public static void main(String[] args) {
         ArrayList<Monster> listmonster = new ArrayList<Monster>(); // menyimpan list monster dari csv
         Effectivity listeff = new Effectivity(); // menyimpan effectivity dari csv
@@ -78,11 +71,14 @@ public class Main {
                 for(String eltype : arrayofeltype){
                    if(eltype.equals("FIRE")){
                         elType.add(ElementType.FIRE);
-                    }if(eltype.equals("NORMAL")){
+                    }
+                    if(eltype.equals("NORMAL")){
                         elType.add(ElementType.NORMAL);
-                    }if(eltype.equals("GRASS")){
+                    }
+                    if(eltype.equals("GRASS")){
                         elType.add(ElementType.GRASS);
-                    }if(eltype.equals("WATER")){
+                    }
+                    if(eltype.equals("WATER")){
                         elType.add(ElementType.WATER);
                     }
                 }
@@ -144,12 +140,11 @@ public class Main {
             CSVReader readFile2 = new CSVReader(new File(Main.class.getResource("configs/movepool.csv").toURI()), ";");
             readFile2.setSkipHeader(true);
             List<String[]> row2 = readFile2.read();
-
             Random rand = new Random();
             int jumlahMons = listmonster.size();
             int upperbound = jumlahMons;
             
-            for (int i = 1; i<= 6; i++){
+            for (int i = 0; i < 6; i++){
                 int monsterrand1 = rand.nextInt(upperbound);
                 int monsterrand2 = rand.nextInt(upperbound);
 
@@ -158,16 +153,18 @@ public class Main {
                     if(id == monsterrand1){
                         String[] basestat1 = line1[3].split(",", 10);
                         Double[] stats = new Double[6];
-                        for (int j = 1; j<=6; j++){
+                        for (int j = 0; j < 6; j++){
                             stats[j] = Double.parseDouble(basestat1[j]);
                         }
                         Stats monstat = new Stats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]);
-                        Monster monsterp1 = new Monster(listmonster.get(id).getId(), listmonster.get(id).getName(), listmonster.get(id).getelemenTypes(), monstat) ;
-                        ListMonsP1.add(monsterp1);
+                        Monster monsterp1 = new Monster(listmonster.get(id).getId(), listmonster.get(id).getName(), listmonster.get(id).getelemenTypes(), monstat);
                         
-                        for(int move : monsterp1.getIDmove()){
-                            for(String[] line2 : row2){
+                        for(String[] line2 : row2){
+                            System.out.println("1");
+                            for(int move : monsterp1.getIDmove()){
+                                System.out.println("2");
                                 if (move == Integer.parseInt(line2[0]) - 1){
+                                    System.out.println("3");
                                     int ammunition = Integer.parseInt(line2[6]);
                                     String tipeMove = line2[1];
                                     if(tipeMove.equals("STATUS")){
@@ -185,16 +182,15 @@ public class Main {
                         }
                         DefaultMove defaultMove = new DefaultMove("jic");
                         monsterp1.getMoves().add(defaultMove);
+                        ListMonsP1.add(monsterp1);
                     }if(id == monsterrand2){
                         String[] basestat2 = line1[3].split(",", 10);
                         Double[] stats = new Double[6];
-                        for (int j = 1; j<=6; j++){
+                        for (int j = 0; j < 6; j++){
                             stats[j] = Double.parseDouble(basestat2[j]);
                         }
                         Stats monstat = new Stats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]);
-                        Monster monsterp2 = new Monster(listmonster.get(id).getId(), listmonster.get(id).getName(), listmonster.get(id).getelemenTypes(), monstat) ;
-                        ListMonsP2.add(monsterp2);
-
+                        Monster monsterp2 = new Monster(listmonster.get(id).getId(), listmonster.get(id).getName(), listmonster.get(id).getelemenTypes(), monstat);
                         for(int move : monsterp2.getIDmove()){
                             for(String[] line2 : row2){
                                 if (move == Integer.parseInt(line2[0]) - 1){
@@ -215,32 +211,41 @@ public class Main {
                         }
                         DefaultMove defaultMove = new DefaultMove("jic");
                         monsterp2.getMoves().add(defaultMove);
+                        ListMonsP2.add(monsterp2);
                     }
+                    id++;
                 }
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
         
-        for(int i = 0; i< 6; i++){
-            System.out.printf("Player 1 mendapatkan monster : %s\n",  ListMonsP1.get(i).getName());
+
+        Random ran = new Random();
+        Player player1 = new Player(name1, ListMonsP1);
+        for(int i = 0; i < 6; i++){
+            System.out.printf("%s mendapatkan monster : %s\n",  player1.getName().toUpperCase(), ListMonsP1.get(i).getName());
         }
         game.space();
-        for(int i = 0; i< 6; i++){
-            System.out.printf("Player 2 mendapatkan monster : %s\n", ListMonsP2.get(i).getName());
-        }
-
-        Player player1 = new Player(name1, ListMonsP1);
-        player1.switchCurrMonster(ListMonsP1.get(0));
+        int randomizemon1 = ran.nextInt(6);
+        player1.setCurrMonster(ListMonsP1.get(randomizemon1));
         Player player2 = new Player(name2, ListMonsP2);
-        player2.switchCurrMonster(ListMonsP2.get(0));
+        for(int i = 0; i < 6; i++){
+            System.out.printf("%s mendapatkan monster : %s\n", player2.getName().toUpperCase(), ListMonsP2.get(i).getName());
+        }
+        int randomizemon2 = ran.nextInt(6);
+        player2.setCurrMonster(ListMonsP2.get(randomizemon2));
+        game.space();
+        
+
         //loop game (battle)
         while(!(player1.isAllDead() && player2.isAllDead())){
             //giliran player1
+            game.space();
             game.newTurn(player1, player2);
-            System.out.println("Sekarang giliran " + player1.getName() + ".");
+            System.out.println("Sekarang giliran " + player1.getName().toUpperCase() + ".");
             System.out.println("Apa yang ingin Anda lakukan?");
-            System.out.println("[1] Menggunakan Move dari " + player2.getCurrentMonster().getName() + ".");
+            System.out.println("[1] Menggunakan Move dari " + player1.getCurrentMonster().getName() + ".");
             System.out.println("[2] Mengganti monster (switch).");
             String action1 = game.ingamegetinput(input, player1, player2);
             Move p1chosenmove = null;
@@ -249,8 +254,8 @@ public class Main {
                 //use move
                 if(player1.getCurrentMonster().isAllMovesUnavailable()){
                     //kalo udah gaada move yang bisa dipilih (ammunitionnya udah 0 semua)
-                    p1chosenmove = new DefaultMove("jic");
                     System.out.println("Sayang sekali ammunition semua move sudah habis, terpaksa menggunakan default move.");
+                    p1chosenmove = new DefaultMove("jic");
                 }else{
                     //ada move yang bisa dipake
                     p1chosenmove = game.chooseMove(player1, player2, p1chosenmove, input);
@@ -272,7 +277,7 @@ public class Main {
             }
 
             //giliran player 2
-            System.out.println("Sekarang giliran " + player2.getName() + ".");
+            System.out.println("Sekarang giliran " + player2.getName().toUpperCase() + ".");
             System.out.println("Apa yang ingin Anda lakukan?");
             System.out.println("[1] Menggunakan Move dari " + player2.getCurrentMonster().getName() + ".");
             System.out.println("[2] Mengganti monster (switch).");
@@ -283,8 +288,8 @@ public class Main {
                 //use move
                 if(player2.getCurrentMonster().isAllMovesUnavailable()){
                     //kalo udah gaada move yang bisa dipilih (ammunitionnya udah 0 semua)
-                    p2chosenmove = new DefaultMove("jic");
                     System.out.println("Sayang sekali ammunition semua move sudah habis, terpaksa menggunakan default move.");
+                    p2chosenmove = new DefaultMove("jic");
                 }else{
                     //ada move yang bisa dipake
                     p2chosenmove = game.chooseMove(player2, player1, p2chosenmove, input);
@@ -296,10 +301,10 @@ public class Main {
                     System.out.printf("Sayang sekali tidak ada lagi monster yang hidup selain %s.\n", player2.getCurrentMonster().getName());
                     System.out.printf("Silakan pilih move yang tersedia untuk %s.\n", player2.getCurrentMonster().getName());
                     //pilih move
-                    p1chosenmove = game.chooseMove(player2, player1, p2chosenmove, input);
+                    p2chosenmove = game.chooseMove(player2, player1, p2chosenmove, input);
                 }else{
                     //masih ada monster yang masih hidup
-                    p1chosenmons = game.chooseMonster(player1, player2, input);
+                    p2chosenmons = game.chooseMonster(player2, player1, input);
                 }
             }else{
                 game.ingameCommands(action2, player1, player2);

@@ -29,10 +29,15 @@ public class Player {
         return this.currentmons;
     }
 
+    //setter monster awal
+    public void setCurrMonster(Monster monster){
+        this.currentmons = monster;
+    }
+    
     //switch current monster
-    public void switchCurrMonster(Monster mon){
-        System.out.printf("%s mengganti monster %s menjadi %s", this.name, this.currentmons.getName(), mon.getName());
-        this.currentmons = mon;
+    public void switchCurrMonster(Monster monster){
+        System.out.printf("%s mengganti monster %s menjadi %s\n", this.name, this.currentmons.getName(), monster.getName());
+        setCurrMonster(monster);
     }
 
     //mengembalikan true jika semua monster sudah mati

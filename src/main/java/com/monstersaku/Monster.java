@@ -98,6 +98,8 @@ public class Monster {
                     movetype = "Special";
                 }else if(movex instanceof StatusMove){
                     movetype = "Status";
+                }else if(movex instanceof DefaultMove){
+                    movetype = "Default";
                 }
                 String movename = movex.getName();
                 int ammunution = movex.getAmmunition();
