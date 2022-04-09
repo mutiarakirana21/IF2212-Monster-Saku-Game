@@ -274,7 +274,7 @@ public class Main {
             //giliran player 2
             System.out.println("Sekarang giliran " + player2.getName() + ".");
             System.out.println("Apa yang ingin Anda lakukan?");
-            System.out.println("[1] Menggunakan Move dari " + player1.getCurrentMonster().getName() + ".");
+            System.out.println("[1] Menggunakan Move dari " + player2.getCurrentMonster().getName() + ".");
             System.out.println("[2] Mengganti monster (switch).");
             String action2 = game.ingamegetinput(input, player1, player2);
             Move p2chosenmove = null;

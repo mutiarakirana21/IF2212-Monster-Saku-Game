@@ -367,6 +367,8 @@ public class Game {
             space();;
         }else if(command.equals("Exit")){
             exit();
+        }else{
+            command = ("salah");
         }
     }
 
@@ -394,6 +396,7 @@ public class Game {
         player2.printMonstersNotUsed();
     }
 
+<<<<<<< Updated upstream
     //awalan turn
     public void newTurn(Player player1, Player player2) {
         System.out.printf("ROUND %d\n", turn);
@@ -407,6 +410,12 @@ public class Game {
         System.out.printf("Turn ke-%d berakhir.", turn);
         space();
         incrTurn();
+=======
+    public void newTurn() {
+        System.out.printf("ROUND %d", getTurn());
+        System.out.println();
+        System.out.println("FIGHT");
+>>>>>>> Stashed changes
     }
 
     //input player ingame
