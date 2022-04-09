@@ -138,13 +138,16 @@ public class Main {
         for (int i = 1; i<= 6; i++){
             int monsterrand = rand.nextInt(upperbound);
             ListMonsP1.add(listmonster.get(monsterrand));
-            System.out.printf("Player 1 mendapatkan monster : %s\n", listmonster.get(monsterrand));
+            System.out.printf("Player 1 mendapatkan monster : %s\n", listmonster.get(monsterrand).getName());
         }
+
+        System.out.println("-----------------------------------------------------------------------");
+
         ArrayList<Monster> ListMonsP2 = new ArrayList<Monster>();
         for (int i = 1; i<= 6; i++){
             int monsterrand = rand.nextInt(upperbound);
             ListMonsP2.add(listmonster.get(monsterrand));
-            System.out.printf("Player 2 mendapatkan monster : %s\n", listmonster.get(monsterrand));
+            System.out.printf("Player 2 mendapatkan monster : %s\n", listmonster.get(monsterrand).getName());
         }
         Player player1 = new Player(name1, ListMonsP1);
         Player player2 = new Player(name2, ListMonsP2);
