@@ -36,7 +36,7 @@ public class Player {
     
     //switch current monster
     public void switchCurrMonster(Monster monster){
-        System.out.printf("%s mengganti monster %s menjadi %s\n", this.name, this.currentmons.getName(), monster.getName());
+        System.out.printf("%s mengganti monster %s menjadi %s.\n", this.name, this.currentmons.getName(), monster.getName());
         setCurrMonster(monster);
     }
 
@@ -59,7 +59,7 @@ public class Player {
                 //nampilin monster yang masih hidup aja
                 String monstername = monsterx.getName();
                 Double HP = monsterx.getbaseStats().getHealthPoint();
-                System.out.printf("[%d], %s, %.2f\n", monsterx.getId(), monstername, HP);
+                System.out.printf("%s, %.2f\n", monstername, HP);
             }
         }
     }

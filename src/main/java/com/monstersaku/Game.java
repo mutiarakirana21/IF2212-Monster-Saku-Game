@@ -50,6 +50,7 @@ public class Game {
 
     // Print help
     public void help() {
+        space();
         System.out.println("Cara memainkan game monster saku : ");
         System.out.println("Pertama-tama setiap pemain diberi 6 monster random.");
         System.out.println("Lalu pemain dapat memilih satu command setiap turnnya.");
@@ -75,6 +76,7 @@ public class Game {
 
     //Keluar dari aplikasi
     public void exit(){
+        space();
         System.out.println("Terima kasih telah bermain Monster Saku! Sampai jumpa lagi!");
         space();
         System.exit(0);
@@ -85,20 +87,24 @@ public class Game {
         System.out.printf("Info dari monster yang dimiliki %s : \n", player.getName());
         for(Monster monsterx : player.getListMon()){
             Stats baseStats = monsterx.getbaseStats();
-            System.out.print("Monster      : " + monsterx.getName());
-            System.out.print("Element Type : ");
+            System.out.println("Monster          : " + monsterx.getName());
+            System.out.print("Element Type     : ");
             for(ElementType eltype : monsterx.getelemenTypes()){
                 switch(eltype) {
                     case NORMAL:
                         System.out.print("Normal ");
+                        break;
                     case FIRE:
                         System.out.print("Fire ");
+                        break;
                     case WATER:
                         System.out.print("Water ");
+                        break;
                     case GRASS:
                         System.out.print("Grass ");
+                        break;
                 }
-                System.out.println("");
+                System.out.print("\n");
             }
             System.out.println("Max HP           : " + baseStats.getmaxHP());
             System.out.println("HP               : " + baseStats.getHealthPoint());
@@ -107,30 +113,36 @@ public class Game {
             System.out.println("Special Attack   : " + baseStats.getSpecialAttack());
             System.out.println("Special Defense  : " + baseStats.getSpecialDefense());
             System.out.println("Speed            : " + baseStats.getSpeed());
-            System.out.print("Status Condition : " + monsterx.getStatcon());
+            System.out.print("Status Condition : ");
             switch(monsterx.getStatcon()){
-                case NOTHING:
-                    System.out.println("-");
                 case BURN:
                     System.out.println("Burn");
+                    break;
                 case POISON:
-                    System.out.println("Poison");
+                    System.out.println("Poison ");
+                    break;
                 case SLEEP:
-                    System.out.println("Sleep");
+                    System.out.println("Sleep ");
+                    break;
                 case PARALYZE:
-                    System.out.println("Paralyze");
+                    System.out.println("Paralyze ");
+                    break;
+                default:
+                    System.out.println("-");
             }
-            System.out.print("Moves         : ");
+            System.out.println("Moves   : ");
             for(Move movex : monsterx.getMoves()){
-                System.out.print(movex.getName() + " ");
+                System.out.println(movex.getName());
             }
-            System.out.println("");
+            System.out.print("\n\n");
         }
     }
  
     public void viewMonstersInfo(Player player1, Player player2){
+        space();
         printMonstersInfo(player1);
         printMonstersInfo(player2);
+        space();
     }
 
     //Move Related Commands
@@ -184,7 +196,7 @@ public class Game {
             HPBaru = 0.0;
             target.monsterDie();
         }
-        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik monster %s.", target.getName(), finaldamage, move.getName(), source.getName());
+        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik monster %s.\n\n", target.getName(), finaldamage, move.getName(), source.getName());
         target.getbaseStats().setHealthPoint(HPBaru);
     }
     
@@ -205,7 +217,7 @@ public class Game {
             HPBaru = 0.0;
             target.monsterDie();
         }
-        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik monster %s.", target.getName(), finaldamage, move.getName(), source.getName());
+        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik monster %s.\n", target.getName(), finaldamage, move.getName(), source.getName());
         target.getbaseStats().setHealthPoint(HPBaru);
 
     }
@@ -240,7 +252,7 @@ public class Game {
     public void useStatusMove (Monster source, Monster target, StatusMove move){
         //kalo diri sendiri harusnya heal/ganti statsbuff
         if(move.getTarget().equals("OWN")){
-            double HP = source.getbaseStats().getmaxHP()+ (move.getHPEffect() * source.getbaseStats().getmaxHP());
+            double HP = source.getbaseStats().getmaxHP() + ((move.getHPEffect() * source.getbaseStats().getmaxHP())/100);
             source.getbaseStats().setHealthPoint(HP);
             StatsBuff statsBuff = source.getbaseStats().getStatsBuff();
             statsBuff.setAttackBuff((int) statsBuff.getAttackBuff() + move.getAttackEffect());
@@ -249,6 +261,7 @@ public class Game {
             statsBuff.setSpDefBuff((int) statsBuff.getAttackBuff() + move.getSpDefEffect());
         }else if(move.getTarget().equals("ENEMY")){
             //kalo enemy berarti pasang statcon/ngaruhin statsbuff
+            //ini yg statsbuff belom :D
             if (move.getStatusCondition() == StatusCondition.BURN){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.burn();
@@ -308,20 +321,20 @@ public class Game {
 
     //Pilih monster
     public Monster chooseMonster(Player current, Player other, Scanner input){
-        System.out.println(current.getName()); // diapus aja ntar
-        System.out.println("Monster manakah yang ingin digunakan? (masukkan IDnya)");
+        System.out.printf("%s akan memilih monster.\n", current.getName()); // diapus aja ntar
+        System.out.println("Monster manakah yang ingin digunakan?");
         current.printAvailableMonsters(); 
         boolean valid = false;
         Monster chosen = current.getCurrentMonster();
         do{
             String chosenmonster = input.nextLine();
-            Integer idchosenmons = Integer.valueOf(chosenmonster);
             for(Monster mons : current.getListMon()){
-                if(idchosenmons == mons.getId()){
+                if(chosenmonster.toLowerCase().equals(mons.getName().toLowerCase()) && !valid){
                     if(!mons.isMonsDead()){
                         chosen = mons;
                         valid = true;
-                        System.out.printf("%s memilih monster %s\n", current.getName(), chosen.getName());                    
+                        System.out.printf("%s memilih monster %s.\n", current.getName(), chosen.getName());     
+                        break;               
                     }
                 }
             }
@@ -344,12 +357,12 @@ public class Game {
         boolean valid = false;
         do{
             String chosenmove = input.nextLine();
-            Integer idchosenmove = Integer.valueOf(chosenmove);
             for(Move move : current.getCurrentMonster().getMoves()){
-                if (idchosenmove == move.getid()){
+                if (chosenmove.toLowerCase().equals(move.getName().toLowerCase())){
                     chosen = move;
                     valid = true;
-                    System.out.printf("%s memilih move %s\n", current.getName(), chosen.getName());
+                    System.out.printf("%s memilih move %s.\n\n", current.getName(), chosen.getName());
+                    break;
                 }
             }
             if(!valid){
@@ -381,9 +394,8 @@ public class Game {
         if(command.toLowerCase().equals("view game info")){
             printGameInfo(player1, player2);
             space();
-        }else if(command.toLowerCase().equals("view monster info")){
+        }else if(command.toLowerCase().equals("view monsters info")){
             viewMonstersInfo(player1, player2);
-            space();
         }else{
             commands(command);
         }
@@ -411,7 +423,7 @@ public class Game {
 
     //akhir turn mencetak status game saat ini
     public void endTurn(Player player1, Player player2){
-        System.out.printf("Turn ke-%d berakhir.", turn);
+        System.out.printf("\nTurn ke-%d berakhir.\n", turn);
         space();
         incrTurn();
     }
@@ -424,6 +436,9 @@ public class Game {
             input = scan.nextLine();
             if(input.toLowerCase().equals("help") || input.toLowerCase().equals("exit") || input.toLowerCase().equals("view game info") || input.toLowerCase().equals("view monsters info") || input.equals("1")|| (input.equals("2"))){
                 valid = true;
+                if(input.toLowerCase().equals("help") || input.toLowerCase().equals("exit") || input.toLowerCase().equals("view game info") || input.toLowerCase().equals("view monsters info")){
+                    ingameCommands(input, player1, player2);
+                }
             }else{
                 System.out.println("Command tidak valid! Silakan masukkan command lain.");
             }
@@ -431,10 +446,27 @@ public class Game {
         return input;
     }
 
+    //ask what to do
+    public void whatToDo(Player player){
+        System.out.println("Sekarang giliran " + player.getName() + ".");
+        System.out.println("Apa yang ingin Anda lakukan?");
+        System.out.println("[1] Menggunakan Move dari " + player.getCurrentMonster().getName() + ".");
+        System.out.println("[2] Mengganti monster (switch).");
+    }
+
     //pengumuman pemenang dan exit aplikasi
     public void endGame(Player winner){
         System.out.println("Congratulationss!!");
         System.out.printf("The winner is : %s!!\n", winner.getName());
         exit();
+    }
+
+    public void replaceMon(Player current, Player other, Scanner input){
+        if(current.getCurrentMonster().isMonsDead()){
+            Monster replacement = chooseMonster(current, other, input);
+            current.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
+            current.switchCurrMonster(replacement);
+        }
+
     }
 }

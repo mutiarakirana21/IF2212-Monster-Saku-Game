@@ -158,7 +158,7 @@ public class Main {
                         }
                         Stats monstat = new Stats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]);
                         Monster monsterp1 = new Monster(listmonster.get(id), monstat);
-
+                        
                         for(String[] line2 : row2){
                             for(int move : monsterp1.getIDmove()){
                                 if (move == Integer.parseInt(line2[0]) - 1){
@@ -177,8 +177,6 @@ public class Main {
                                 }
                             }
                         }
-                        //DefaultMove defaultMove = new DefaultMove("jic");
-                        //monsterp1.getMoves().add(defaultMove);
                         ListMonsP1.add(monsterp1);
                     }if(id == monsterrand2){
                         String[] basestat2 = line1[3].split(",", 10);
@@ -206,8 +204,6 @@ public class Main {
                                 }
                             }
                         }
-                        // DefaultMove defaultMove = new DefaultMove("jic");
-                        // monsterp2.getMoves().add(defaultMove);
                         ListMonsP2.add(monsterp2);
                     }
                     id++;
@@ -219,16 +215,16 @@ public class Main {
         
 
         Random ran = new Random();
-        Player player1 = new Player(name1, ListMonsP1);
+        Player player1 = new Player(name1.toUpperCase(), ListMonsP1);
         for(int i = 0; i < 6; i++){
-            System.out.printf("%s mendapatkan monster : %s\n",  player1.getName().toUpperCase(), ListMonsP1.get(i).getName());
+            System.out.printf("%s mendapatkan monster : %s\n",  player1.getName(), ListMonsP1.get(i).getName());
         }
         game.space();
         int randomizemon1 = ran.nextInt(6);
         player1.setCurrMonster(ListMonsP1.get(randomizemon1));
-        Player player2 = new Player(name2, ListMonsP2);
+        Player player2 = new Player(name2.toUpperCase(), ListMonsP2);
         for(int i = 0; i < 6; i++){
-            System.out.printf("%s mendapatkan monster : %s\n", player2.getName().toUpperCase(), ListMonsP2.get(i).getName());
+            System.out.printf("%s mendapatkan monster : %s\n", player2.getName(), ListMonsP2.get(i).getName());
         }
         int randomizemon2 = ran.nextInt(6);
         player2.setCurrMonster(ListMonsP2.get(randomizemon2));
@@ -240,11 +236,15 @@ public class Main {
             //giliran player1
             game.space();
             game.newTurn(player1, player2);
-            System.out.println("Sekarang giliran " + player1.getName().toUpperCase() + ".");
-            System.out.println("Apa yang ingin Anda lakukan?");
-            System.out.println("[1] Menggunakan Move dari " + player1.getCurrentMonster().getName() + ".");
-            System.out.println("[2] Mengganti monster (switch).");
-            String action1 = game.ingamegetinput(input, player1, player2);
+            boolean valid1 = false;
+            String action1 = "";
+            while(!valid1){
+                game.whatToDo(player1);
+                action1 = game.ingamegetinput(input, player1, player2);
+                if(action1.equals("1") || action1.equals("2")){
+                    valid1 = true;
+                }
+            }
             Move p1chosenmove = null;
             Monster p1chosenmons = player1.getCurrentMonster(); 
             if(action1.equals("1")){
@@ -273,12 +273,16 @@ public class Main {
                 game.ingameCommands(action1, player1, player2);
             }
 
-            //giliran player 2
-            System.out.println("\nSekarang giliran " + player2.getName().toUpperCase() + ".");
-            System.out.println("Apa yang ingin Anda lakukan?");
-            System.out.println("[1] Menggunakan Move dari " + player2.getCurrentMonster().getName() + ".");
-            System.out.println("[2] Mengganti monster (switch).");
-            String action2 = game.ingamegetinput(input, player1, player2);
+            //giliran player2
+            boolean valid2 = false;
+            String action2 = "";
+            while(!valid2){
+                game.whatToDo(player2);
+                action2 = game.ingamegetinput(input, player1, player2);
+                if(action1.equals("1") || action1.equals("2")){
+                    valid2 = true;
+                }
+            }
             Move p2chosenmove = null;
             Monster p2chosenmons = player2.getCurrentMonster(); 
             if(action2.equals("1")){
@@ -313,75 +317,60 @@ public class Main {
                 Move firstmove = p1chosenmove.compareMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p2chosenmove);
                 if(firstmove == p1chosenmove){
                     //p1 duluan
-                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
-                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
-                    //afterdamage
-                    game.afterEffect(player1);
-                    game.afterEffect(player2);
                     //kalo mati pilih monster baru
-                    if(player1.getCurrentMonster().isMonsDead()){
-                        Monster replacement = game.chooseMonster(player1, player2, input);
-                        player1.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-                        player1.switchCurrMonster(replacement);
-                    }else if(player2.getCurrentMonster().isMonsDead()){
-                        Monster replacement = game.chooseMonster(player2, player1, input);
-                        player2.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-                        player2.switchCurrMonster(replacement);
-                    }
+                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
+                    game.replaceMon(player2, player1, input);
+                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
+                    game.replaceMon(player1, player2, input);
+                    //aftereffect
+                    //kalo mati pilih monster baru
+                    game.afterEffect(player1);
+                    game.replaceMon(player1, player2, input);
+                    game.afterEffect(player2);
+                    game.replaceMon(player2, player1, input);
+                    
                 }else{
                     //p2 duluan
-                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
-                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
-                    //afterdamage
-                    game.afterEffect(player1);
-                    game.afterEffect(player2);
                     //kalo mati pilih monster baru
-                    if(player1.getCurrentMonster().isMonsDead()){
-                        Monster replacement = game.chooseMonster(player1, player2, input);
-                        player1.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-                        player1.switchCurrMonster(replacement);
-                    }else if(player2.getCurrentMonster().isMonsDead()){
-                        Monster replacement = game.chooseMonster(player2, player1, input);
-                        player2.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-                        player2.switchCurrMonster(replacement);
-                    }
+                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
+                    game.replaceMon(player1, player2, input);
+                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
+                    game.replaceMon(player2, player1, input);
+                    //afterdamage
+                    //kalo mati pilih monster baru
+                    game.afterEffect(player1);
+                    game.replaceMon(player1, player2, input);
+                    game.afterEffect(player2);
+                    game.replaceMon(player2, player1, input);
                 }
             }else if(action1.equals("1") && action2.equals("2")){
                 //p1 move, p2 switch
                 player2.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
                 player2.switchCurrMonster(p2chosenmons);
                 //pake movenya
-                game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
-                game.afterEffect(player1);
-                game.afterEffect(player2);
                 //kalo mati pilih monster baru
-                if(player1.getCurrentMonster().isMonsDead()){
-                    Monster replacement = game.chooseMonster(player1, player2, input);
-                    player1.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-                    player1.switchCurrMonster(replacement);
-                }else if(player2.getCurrentMonster().isMonsDead()){
-                    Monster replacement = game.chooseMonster(player2, player1, input);
-                    player2.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-                    player2.switchCurrMonster(replacement);
-                }
+                game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
+                game.replaceMon(player2, player1, input);
+                //after effect
+                //kalo mati pilih monster baru
+                game.afterEffect(player1);
+                game.replaceMon(player1, player2, input);
+                game.afterEffect(player2);
+                game.replaceMon(player2, player1, input);
             }else if(action1.equals("2") && action2.equals("1")){
                 //p1 switch, p2 move
                 player1.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
                 player1.switchCurrMonster(p1chosenmons);
                 //pake move
                 game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
+                game.replaceMon(player1, player2, input);
+                //after effect
+                //kalo mati ganti
                 game.afterEffect(player1);
+                game.replaceMon(player1, player2, input);
                 game.afterEffect(player2);
+                game.replaceMon(player2, player1, input);
                 //kalo mati pilih monster baru
-                if(player1.getCurrentMonster().isMonsDead()){
-                    Monster replacement = game.chooseMonster(player1, player2, input);
-                    player1.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-                    player1.switchCurrMonster(replacement);
-                }else if(player2.getCurrentMonster().isMonsDead()){
-                    Monster replacement = game.chooseMonster(player2, player1, input);
-                    player2.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-                    player2.switchCurrMonster(replacement);
-                }
             }else if(action1.equals("2") && action2.equals("2")){
                 //p1 dan p2 switch
                 player1.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
