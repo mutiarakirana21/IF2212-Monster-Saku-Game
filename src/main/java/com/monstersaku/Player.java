@@ -31,6 +31,7 @@ public class Player {
 
     //switch current monster
     public void switchCurrMonster(Monster mon){
+        System.out.printf("%s mengganti monster %s menjadi %s", this.name, this.currentmons.getName(), mon.getName());
         this.currentmons = mon;
     }
 
@@ -46,31 +47,41 @@ public class Player {
     }   
 
     public void printAvailableMonsters(){
-        System.out.println("Monster, HP, Status");
+        System.out.println("Monster, HP");
         for(int i  = 0; i < 6; i++){
             Monster monsterx = this.getListMon().get(i);
             if(!monsterx.isMonsDead()){
                 //nampilin monster yang masih hidup aja
                 String monstername = monsterx.getName();
-                String status;
                 Double HP = monsterx.getbaseStats().getHealthPoint();
-                if(monsterx.isMonsDead()){
-                    status = "Dead";
-                }else{
-                    status = "Alive";
-                }
-                System.out.printf("%s, %d, %s\n", monstername, HP, status);
+                System.out.printf("%s, %.2f\n", monstername, HP);
             }
         }
     }
     
     public void printMonstersNotUsed(){
+        System.out.println("Nama monster, status");
         for(int i = 0; i < 6; i++){
             Monster monsterx = this.getListMon().get(i);
-            //String monstername = monsterx.getName();
+            String status = "Alive";
+            if(monsterx.isMonsDead()){
+                status = "Dead";
+            }
             if(!monsterx.equals(this.getCurrentMonster())){
-                System.out.println(monsterx.getName());
+                System.out.printf("%s, %s\n",monsterx.getName(), status);
             }
         }
+    }
+
+    public boolean isNoMoreMonsterAvailable(){
+        //return true kalo current monster adalah satu-satunya monster yang hidup
+        boolean nomore = true;
+        for(Monster monsterx : this.getListMon()){
+            if(monsterx != this.getCurrentMonster() && !monsterx.isMonsDead()){
+                //bukan monster yang sekarang dipake dan monsternya ga mati berarti ada yg lain
+                nomore = false;
+            }
+        }
+        return nomore;
     }
 }
