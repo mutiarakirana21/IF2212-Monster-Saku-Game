@@ -149,9 +149,13 @@ public class Main {
             ListMonsP2.add(listmonster.get(monsterrand));
             System.out.printf("Player 2 mendapatkan monster : %s\n", listmonster.get(monsterrand).getName());
         }
-        Player player1 = new Player(name1, ListMonsP1);
-        Player player2 = new Player(name2, ListMonsP2);
 
+        System.out.println("-----------------------------------------------------------------------");
+
+        Player player1 = new Player(name1, ListMonsP1);
+        player1.switchCurrMonster(ListMonsP1.get(0));
+        Player player2 = new Player(name2, ListMonsP2);
+        player2.switchCurrMonster(ListMonsP2.get(0));
         //loop game (battle)
         while(!(player1.isAllDead() && player2.isAllDead())){
             //giliran player1
