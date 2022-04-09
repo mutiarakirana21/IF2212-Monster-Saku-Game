@@ -21,6 +21,7 @@ public class Stats{
         this.specialAttack = specialAttack;
         this.specialDefense = specialDefense;
         this.speed = speed;
+        this.statBuff = new StatsBuff();
     }
 
     // Setter

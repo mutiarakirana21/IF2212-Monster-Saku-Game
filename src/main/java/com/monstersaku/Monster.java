@@ -11,6 +11,7 @@ public class Monster {
     private ArrayList<Integer> Idmoves;
     private ArrayList<Move> moves;
     private StatusCondition statcon;
+    private boolean dead;
     private int sleep;
 
     public Monster(int idMons, String name, ArrayList<ElementType> elemenTypes, Stats baseStats){
@@ -21,6 +22,7 @@ public class Monster {
         this.Idmoves = new ArrayList<Integer>();
         this.moves = new ArrayList<Move>();
         this.statcon = StatusCondition.NOTHING;
+        this.dead = false;
         this.sleep = 0;
     }
     // setter
@@ -45,6 +47,13 @@ public class Monster {
     public void setnumsleep(int value){
         this.sleep = value;
     }
+
+    public void monsterDie(){
+        //set to true kalau monsternya mati
+        this.dead = true;
+        System.out.printf("Oh tidak! %s sudah mati.\n", this.name);
+    }
+
     //getter
     public int getId(){
         return idMons;
@@ -70,6 +79,11 @@ public class Monster {
     public int getnumsleep(){
         return sleep;
     }
+
+    public boolean isMonsDead(){
+        //return true if monster is dead
+        return dead;
+    }
     
     public void printAvailableMoves(){
         System.out.println("Move name, Move type, Ammuniton");
@@ -91,11 +105,7 @@ public class Monster {
             }
         }
     }
-
-    public boolean isMonsDead(){
-        return (baseStats.getHealthPoint() == 0);
-    }
-
+  
     public boolean isAllMovesUnavailable(){
         //return true kalau masih ada move yang available
         boolean isunavailable = true;

@@ -22,6 +22,16 @@ public class StatusMove extends Move{
         this.speedEffect = speedEffect;
     }
 
+    public StatusMove(StatusMove statmove, int ammunition){
+        super(statmove, ammunition);
+        this.target = statmove.getTarget();
+        this.hpEffect = statmove.getHPEffect();
+        this.attackEffect = statmove.getAttackEffect();
+        this.defenseEffect = statmove.getDefenseEffect();
+        this.spAttEffect = statmove.getSpAttEffect();
+        this.spDefEffect = statmove.getDefenseEffect();
+        this.speedEffect = statmove.getSpeedEffect();
+    }
     public String getTarget(){
         return this.target;
     }

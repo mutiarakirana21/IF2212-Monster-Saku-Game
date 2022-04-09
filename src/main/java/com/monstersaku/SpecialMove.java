@@ -7,7 +7,10 @@ public class SpecialMove extends Move{
         super(id, name, elementType, accuracy, priority, ammunition);
         this.basePower = basePower;
     }
-    
+    public SpecialMove (SpecialMove specialMove, int ammunition) {
+        super(specialMove, ammunition);
+        this.basePower = specialMove.getBasePower();
+    }
     //getter
     public int getBasePower(){
         return this.basePower;

@@ -19,6 +19,15 @@ public abstract class Move {
         this.priority = priority; 
         this.ammunition = ammunition;
     }
+
+    public Move(Move move, int ammunition){
+        this.id = move.getid();
+        this.name = move.getName(); 
+        this.elementType = move.getElType(); 
+        this.accuracy = move.getAccuracy(); 
+        this.priority = move.getPriority(); 
+        this.ammunition = move.getAmmunition();
+    }
     
     //abstract class yang harus diimplementasikan di sub-class
     //public abstract void damageDone();

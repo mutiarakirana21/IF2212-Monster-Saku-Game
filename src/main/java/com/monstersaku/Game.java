@@ -12,10 +12,12 @@ public class Game {
         this.turn = 1;
     }
 
+    //getter turn
     public int getTurn(){
         return turn;
     }
 
+    //increment turn
     public void incrTurn(){
         turn++;
     }
@@ -40,9 +42,30 @@ public class Game {
         }while(!start);
     }
 
+    // Print Spasi 
+    public void space() {
+        System.out.println("");
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("");
+    }
+
+    // Print help
+    public void help() {
+        System.out.println("Cara memainkan game monster saku : ");
+        System.out.println("Pertama-tama setiap pemain diberi 6 monster random.");
+        System.out.println("Lalu pemain dapat memilih satu command setiap turnnya.");
+        System.out.println("Ada Move untuk memilih tipe serangan atau gerakan.");
+        System.out.println("Ada Switch untuk mengubah monster yang ditarungkan.");
+        System.out.println("Ada juga View Monster Info untuk melihat informasi monster.");
+        System.out.println("Ada juga View Game Info untuk melihat informasi turn dan informasi monster lainnya.");
+        System.out.println("Help dapat digunakan untuk melihat bantuan ini kembali.");
+        System.out.println("Exit dapat digunakan untuk keluar dari game.");
+        System.out.println("Semoga Membantu Yaaa!!!");
+    }
+
     // Command dalam battle
     public void listCommand() {
-        System.out.println("Command yang dapat dijalankan");
+        System.out.println("Command yang dapat dijalankan : ");
         System.out.println("[1] Move");
         System.out.println("[2] Switch");
         System.out.println("[3] View Monster Info (khusus dalam game)");
@@ -51,41 +74,16 @@ public class Game {
         System.out.println("[6] Exit");
     }
 
-    // Print Spasi diakhiran turn atau ganti layar
-    public void space() {
-        System.out.println("");
-        System.out.println("--------------------------------------");
-        System.out.println("");
-    }
-
-    // Print help
-    public void help() {
-        System.out.println("Cara memainkan game monster saku");
-        System.out.println("Pertama-tama setiap pemain diberi 6 monster");
-        System.out.println("Lalu pemain dapat memilih command setiap turnnya");
-        System.out.println("Ada Move untuk memilih tipe serangan atau gerakan");
-        System.out.println("Ada Switch untuk mengubah monster yang ditarungkan");
-        System.out.println("Ada juga View Monster Info untuk melihat informasi monster");
-        System.out.println("Ada juga View Game Info untuk melihat informasi turn dan informasi monster lainnya");
-        System.out.println("Help dapat digunakan untuk melihat bantuan ini kembali");
-        System.out.println("Exit dapat digunakan untuk keluar dari game");
-        System.out.println("Semoga Membantu Yaaa!!!");
-    }
-
-    // Print Info monster yang sedang bertarung
-    public void viewMonstersInfo(Player player1, Player player2) {
-        // Info Monster Player 1
-        System.out.println(player1.getName());
-        printMonstersInfo(player1);
-        System.out.println("");
-
-        // Info Monster Player 2
-        System.out.println(player2.getName());
-        printMonstersInfo(player2);
+    //Keluar dari aplikasi
+    public void exit(){
+        System.out.println("Terima kasih telah bermain Monster Saku! Sampai jumpa lagi!");
         space();
+        System.exit(0);
     }
 
+    // Print info semua monster yang sedang bertarung untuk 1 player
     public void printMonstersInfo(Player player){
+        System.out.printf("Info dari monster yang dimiliki %s : \n", player.getName());
         for(Monster monsterx : player.getListMon()){
             Stats baseStats = monsterx.getbaseStats();
             System.out.print("Monster      : " + monsterx.getName());
@@ -130,128 +128,13 @@ public class Game {
             System.out.println("");
         }
     }
-
-    public void clearScreen(){
-        try {
-            if (System.getProperty("os.name").contains("Windows"))
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            else
-                Runtime.getRuntime().exec("clear");
-        } catch (IOException | InterruptedException ex) {
-            System.out.println(ex);
-        }
+ 
+    public void viewMonstersInfo(Player player1, Player player2){
+        printMonstersInfo(player1);
+        printMonstersInfo(player2);
     }
 
-    public void exit(){
-        System.exit(0);
-    }
-    
-    public void useNormalMove (Monster source, Monster target, NormalMove move, Effectivity eff){
-        double ElementEffectivity = 1;
-        for (ElementType e : target.getelemenTypes()){
-            ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
-        }
-        double burn;
-        if (source.getStatcon() == StatusCondition.BURN){
-            burn = 0.5;
-        }else{
-            burn = 1;
-        }
-        float finaldamage = (float)Math.floor((move.getBasePower() * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
-        Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        if (HPBaru <= 0){
-            HPBaru = 0.0;
-        }
-        target.getbaseStats().setHealthPoint(HPBaru);
-    }
-    
-    public void useSpecialMove (Monster source, Monster target, SpecialMove move, Effectivity eff){
-        double ElementEffectivity = 1;
-        for (ElementType e : target.getelemenTypes()){
-            ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
-        }
-        double burn;
-        if (source.getStatcon() == StatusCondition.BURN){
-            burn = 0.5;
-        }else{
-            burn = 1;
-        }
-        float finaldamage = (float)Math.floor((move.getBasePower() * ((source.getbaseStats().getSpecialAttack()) / (target.getbaseStats().getSpecialDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
-        Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        if (HPBaru <= 0){
-            HPBaru = 0.0;
-        }
-        target.getbaseStats().setHealthPoint(HPBaru);
-    }
-    
-    public void useDefaultMove (Monster source, Monster target, Move move, Effectivity eff){
-        double ElementEffectivity = 1;
-        for (ElementType e : target.getelemenTypes()){
-            ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
-        }
-        double burn;
-        if (source.getStatcon() == StatusCondition.BURN){
-            burn = 0.5;
-        }else{
-            burn = 1;
-        }
-        float finaldamage = (float)Math.floor((50 * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
-        Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        if (HPBaru <= 0){
-            HPBaru = 0.0;
-        }
-        target.getbaseStats().setHealthPoint(HPBaru);
-        Double HPSource = Math.floor(source.getbaseStats().getHealthPoint() - (1/4) * source.getbaseStats().getmaxHP());
-        if (HPSource <= 0){
-            HPBaru = 0.0;
-        }
-        source.getbaseStats().setHealthPoint(HPSource);
-    }
-
-    public void useStatusMove (Monster source, Monster target, StatusMove move){
-        //kalo diri sendiri harusnya heal/ganti statsbuff
-        if(move.getTarget().equals("OWN")){
-            double HP = move.getHPEffect() + (move.getHPEffect() * source.getbaseStats().getmaxHP());
-            source.getbaseStats().setHealthPoint(HP);
-            StatsBuff statsBuff = source.getbaseStats().getStatsBuff();
-            statsBuff.setAttackBuff((int) statsBuff.getAttackBuff() + move.getAttackEffect());
-            statsBuff.setDefenseBuff((int) statsBuff.getDefenseBuff() + move.getDefenseEffect());
-            statsBuff.setSpAttBuff((int) statsBuff.getAttackBuff() + move.getSpAttEffect());
-            statsBuff.setSpDefBuff((int) statsBuff.getAttackBuff() + move.getSpDefEffect());
-        }else if(move.getTarget().equals("ENEMY")){
-            //kalo enemy berarti pasang statcon/ngaruhin statsbuff
-            if (move.getStatusCondition() == StatusCondition.BURN){
-                if (target.getStatcon() == StatusCondition.NOTHING){
-                    target.setStatcon(StatusCondition.BURN);
-                    System.out.println("Terkena status condition burn");
-                }else{
-                    System.out.println("Target telah memiliki status condition lain");
-                }
-            }else if (move.getStatusCondition() == StatusCondition.POISON){
-                if (target.getStatcon() == StatusCondition.NOTHING){
-                    target.setStatcon(StatusCondition.POISON);
-                    System.out.println("Terkena status condition poison");
-                }else{
-                    System.out.println("Target telah memiliki status condition lain");
-                }
-            }else if (move.getStatusCondition() == StatusCondition.PARALYZE){
-                if (target.getStatcon() == StatusCondition.NOTHING){
-                    target.setStatcon(StatusCondition.PARALYZE);
-                    System.out.println("Terkena status condition paralyze");
-                }else{
-                    System.out.println("Target telah memiliki status condition lain");
-                }
-            }else if (move.getStatusCondition() == StatusCondition.SLEEP){
-                if (target.getStatcon() == StatusCondition.NOTHING){
-                    target.setStatcon(StatusCondition.SLEEP);
-                    System.out.println("Terkena status condition sleep");
-                }else{
-                    System.out.println("Target telah memiliki status condition lain");
-                }
-            }
-        }
-    }
-
+    //Move Related Commands
     public void useMove (Monster source, Monster target, Move move, Effectivity eff){
         Random rand = new Random();
         int number = rand.nextInt(100);
@@ -285,26 +168,148 @@ public class Game {
         move.setAmmunition(move.getAmmunition() - 1);
     }
 
-    public void afterEffect(Monster affected){
+    public void useNormalMove (Monster source, Monster target, NormalMove move, Effectivity eff){
+        double ElementEffectivity = 1;
+        for (ElementType e : target.getelemenTypes()){
+            ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
+        }
+        double burn;
+        if (source.getStatcon() == StatusCondition.BURN){
+            burn = 0.5;
+        }else{
+            burn = 1;
+        }
+        Double finaldamage = (Double)Math.floor((move.getBasePower() * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
+        Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
+        if (HPBaru <= 0){
+            HPBaru = 0.0;
+            target.monsterDie();
+        }
+        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik monster %s.", target.getName(), finaldamage, move.getName(), source.getName());
+        target.getbaseStats().setHealthPoint(HPBaru);
+    }
+    
+    public void useSpecialMove (Monster source, Monster target, SpecialMove move, Effectivity eff){
+        double ElementEffectivity = 1;
+        for (ElementType e : target.getelemenTypes()){
+            ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
+        }
+        double burn;
+        if (source.getStatcon() == StatusCondition.BURN){
+            burn = 0.5;
+        }else{
+            burn = 1;
+        }
+        float finaldamage = (float)Math.floor((move.getBasePower() * ((source.getbaseStats().getSpecialAttack()) / (target.getbaseStats().getSpecialDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
+        Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
+        if (HPBaru <= 0){
+            HPBaru = 0.0;
+            target.monsterDie();
+        }
+        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik monster %s.", target.getName(), finaldamage, move.getName(), source.getName());
+        target.getbaseStats().setHealthPoint(HPBaru);
+
+    }
+    
+    public void useDefaultMove (Monster source, Monster target, Move move, Effectivity eff){
+        double ElementEffectivity = 1;
+        for (ElementType e : target.getelemenTypes()){
+            ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
+        }
+        double burn;
+        if (source.getStatcon() == StatusCondition.BURN){
+            burn = 0.5;
+        }else{
+            burn = 1;
+        }
+        float finaldamage = (float)Math.floor((50 * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
+        Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
+        if (HPBaru <= 0){
+            HPBaru = 0.0;
+            target.monsterDie();
+        }
+        target.getbaseStats().setHealthPoint(HPBaru);
+        Double HPSource = Math.floor(source.getbaseStats().getHealthPoint() - (1/4) * source.getbaseStats().getmaxHP());
+        if (HPSource <= 0){
+            HPBaru = 0.0;
+            target.monsterDie();
+        }
+        System.out.printf("%s terkena damage sebesar %.2f dari default move milik monster %.", target.getName(), finaldamage, source.getName());
+        source.getbaseStats().setHealthPoint(HPSource);
+    }
+
+    public void useStatusMove (Monster source, Monster target, StatusMove move){
+        //kalo diri sendiri harusnya heal/ganti statsbuff
+        if(move.getTarget().equals("OWN")){
+            double HP = move.getHPEffect() + (move.getHPEffect() * source.getbaseStats().getmaxHP());
+            source.getbaseStats().setHealthPoint(HP);
+            StatsBuff statsBuff = source.getbaseStats().getStatsBuff();
+            statsBuff.setAttackBuff((int) statsBuff.getAttackBuff() + move.getAttackEffect());
+            statsBuff.setDefenseBuff((int) statsBuff.getDefenseBuff() + move.getDefenseEffect());
+            statsBuff.setSpAttBuff((int) statsBuff.getAttackBuff() + move.getSpAttEffect());
+            statsBuff.setSpDefBuff((int) statsBuff.getAttackBuff() + move.getSpDefEffect());
+        }else if(move.getTarget().equals("ENEMY")){
+            //kalo enemy berarti pasang statcon/ngaruhin statsbuff
+            if (move.getStatusCondition() == StatusCondition.BURN){
+                if (target.getStatcon() == StatusCondition.NOTHING){
+                    target.burn();
+                    System.out.printf("%s terkena status condition burn.\n", target.getName());
+                }else{
+                    System.out.printf("%s telah memiliki status condition lain.\n", target.getName());
+                }
+            }else if (move.getStatusCondition() == StatusCondition.POISON){
+                if (target.getStatcon() == StatusCondition.NOTHING){
+                    target.poison();
+                    System.out.printf("%s terkena status condition poison.\n", target.getName());
+                }else{
+                    System.out.printf("% telah memiliki status condition lain.\n", target.getName());
+                }
+            }else if (move.getStatusCondition() == StatusCondition.PARALYZE){
+                if (target.getStatcon() == StatusCondition.NOTHING){
+                    target.paralyze();
+                    System.out.printf("%s terkena status condition paralyze.\n", target.getName());
+                }else{
+                    System.out.printf("% telah memiliki status condition lain.\n", target.getName());
+                }
+            }else if (move.getStatusCondition() == StatusCondition.SLEEP){
+                if (target.getStatcon() == StatusCondition.NOTHING){
+                    target.sleep();
+                    System.out.printf("%s terkena status condition sleep selama %d turn.\n", target.getName(), target.getnumsleep());
+                }else{
+                    System.out.printf("% telah memiliki status condition lain.\n", target.getName());
+                }
+            }
+        }
+    }
+
+    //After battle effects
+    public void afterEffect(Player player){
+        Monster affected = player.getCurrentMonster();
         StatusCondition statcon = affected.getStatcon();
         if(statcon == StatusCondition.BURN){
             double afterdamage = affected.getbaseStats().getmaxHP() * 0.125; 
             double HPBaru = affected.getbaseStats().getHealthPoint() - afterdamage;
-            if(HPBaru < 0 ){
+            if(HPBaru <= 0 ){
                 HPBaru = 0;
+                affected.monsterDie();
             }
         }else if(statcon == StatusCondition.POISON){
             double afterdamage = (double)Math.floor( affected.getbaseStats().getmaxHP() * 0.0625);
             double HPbaru = affected.getbaseStats().getHealthPoint() - afterdamage;
-            if(HPbaru < 0.0){
-                HPbaru = 0.0;
+            if(HPbaru <= 0){
+                HPbaru = 0;
+                affected.monsterDie();
             }
-        }else if(statcon == StatusCondition.SLEEP){
-            affected.sleepdecr();
+        }for(Monster monsterx : player.getListMon()){
+            if (monsterx.getStatcon() == StatusCondition.SLEEP){
+                monsterx.sleepdecr();
+            }
         }
     }
 
-    public Monster chooseMonster(Player current, Scanner input){
+    //Pilih monster
+    public Monster chooseMonster(Player current, Player other, Scanner input){
+        System.out.println(current.getName());
         System.out.println("Monster manakah yang ingin digunakan?");
         current.printAvailableMonsters(); 
         boolean valid = false;
@@ -321,13 +326,18 @@ public class Game {
             }
             if(!valid){
                 //kalo masukan monster tidak valid (tidak ada monsternya)
-                System.out.println("Monster tidak valid! Silakan pilih monster lain.");
+                if(chosenmonster.equals("Help") || chosenmonster.equals("Exit") || chosenmonster.equals("View Game Info") || chosenmonster.equals("View Monsters Info")){
+                    ingameCommands(chosenmonster, current, other);
+                }else{
+                    System.out.println("Monster tidak valid! Silakan pilih monster lain.");
+                }
             }
         }while (!valid);
         return chosen;
     }
 
-    public Move chooseMove(Player current, Move chosen, Scanner input){
+    //Pilih Move
+    public Move chooseMove(Player current, Player other, Move chosen, Scanner input){
         System.out.println("Move manakah yang ingin digunakan?");
         current.getCurrentMonster().printAvailableMoves();
         boolean valid = false;
@@ -339,6 +349,9 @@ public class Game {
                 }
             }
             if(!valid){
+                if(chosenmove.equals("Help") || chosenmove.equals("Exit") || chosenmove.equals("View Game Info") || chosenmove.equals("View Monsters Info")){
+                    ingameCommands(chosenmove, current, other);
+                }
                 //kalo masukan move tidak valid (tidak ada movenya)
                 System.out.println("Move tidak valid! silakan pilih move lain.");
             }
@@ -346,41 +359,57 @@ public class Game {
         return chosen;
     }
 
+    //command lain dari yang diminta
     public void commands(String command){
         if(command.equals("Help")){
             help();
             listCommand();
+            space();;
         }else if(command.equals("Exit")){
             exit();
         }
     }
 
+    //command dalam game
     public void ingameCommands(String command, Player player1, Player player2){
         if(command.equals("View Game Info")){
             printGameInfo(player1, player2);
+            space();
         }else if(command.equals("View Monster Info")){
             viewMonstersInfo(player1, player2);
+            space();
         }else{
             commands(command);
         }
     }
 
+    //mencetak ke layar informasi game (turn, monster yang sedang dimainkan, dan monster yang tidak bertarung)
     public void printGameInfo(Player player1, Player player2){
         System.out.printf("Turn dalam game ini : %d\n", turn);
-        System.out.println("Current Monster " + player1.getName() + " : " + player1.getCurrentMonster().getName());
-        System.out.println("Current Monster " + player2.getName() + " : " + player2.getCurrentMonster().getName());
+        System.out.println("Monster yang sedang dimainkan " + player1.getName() + " : " + player1.getCurrentMonster().getName());
+        System.out.println("Monster yang sedang dimainkan " + player2.getName() + " : " + player2.getCurrentMonster().getName());
         System.out.println("Monster dari " + player1.getName() + " yang sedang tidak bertarung : ");
         player1.printMonstersNotUsed();
         System.out.println("Monster dari " + player2.getName() + " yang sedang tidak bertarung : ");
         player2.printMonstersNotUsed();
     }
 
-    public void newTurn() {
-        System.out.printf("ROUND %d", turn);
-        System.out.println(getTurn());
-        System.out.println("FIGHT");
+    //awalan turn
+    public void newTurn(Player player1, Player player2) {
+        System.out.printf("ROUND %d\n", turn);
+        System.out.println("FIGHT\n");
+        System.out.printf("Monster yang sedang dimainkan %s : %s dengan HP = ", player1.getName(), player1.getCurrentMonster().getName(), player1.getCurrentMonster().getbaseStats().getHealthPoint());
+        System.out.printf("Monster yang sedang dimainkan %s : %s dengan HP = ", player1.getName(), player1.getCurrentMonster().getName(), player1.getCurrentMonster().getbaseStats().getHealthPoint());
     }
 
+    //akhir turn mencetak status game saat ini
+    public void endTurn(Player player1, Player player2){
+        System.out.printf("Turn ke-%d berakhir.", turn);
+        space();
+        incrTurn();
+    }
+
+    //input player ingame
     public String ingamegetinput(Scanner scan, Player player1, Player player2){
         boolean valid = false;
         String input = null;
@@ -395,4 +424,10 @@ public class Game {
         return input;
     }
 
+    //pengumuman pemenang dan exit aplikasi
+    public void endGame(Player winner){
+        System.out.println("Congratulationss!!");
+        System.out.printf("The winner is : %s!!\n", winner.getName());
+        exit();
+    }
 }
