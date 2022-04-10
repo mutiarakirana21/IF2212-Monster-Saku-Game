@@ -56,7 +56,7 @@ public class Player {
         System.out.println("Monster, HP");
         for(int i  = 0; i < 6; i++){
             Monster monsterx = this.getListMon().get(i);
-            if(!monsterx.isMonsDead()){
+            if(!monsterx.isMonsDead() && !monsterx.equals(this.currentmons)){
                 //nampilin monster yang masih hidup aja
                 String monstername = monsterx.getName();
                 Double HP = monsterx.getbaseStats().getHealthPoint();

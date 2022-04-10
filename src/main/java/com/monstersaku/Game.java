@@ -192,7 +192,7 @@ public class Game {
         }
         Double finaldamage = (Double)Math.floor((move.getBasePower() * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
         Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik monster %s.\n\n", target.getName(), finaldamage, move.getName(), source.getName());
+        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik %s.\n\n", target.getName(), finaldamage, move.getName(), source.getName());
         if (HPBaru <= 0){
             HPBaru = 0.0;
             target.monsterDie();
@@ -235,7 +235,7 @@ public class Game {
         }
         float finaldamage = (float)Math.floor((50 * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
         Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        System.out.printf("%s terkena damage sebesar %.2f dari default move milik monster %s.\n", target.getName(), finaldamage, source.getName());
+        System.out.printf("%s terkena damage sebesar %.2f dari default move milik %s.\n", target.getName(), finaldamage, source.getName());
         if (HPBaru <= 0){
             HPBaru = 0.0;
             target.monsterDie();
@@ -253,18 +253,29 @@ public class Game {
     public void useStatusMove (Monster source, Monster target, StatusMove move){
         //kalo diri sendiri harusnya heal/ganti statsbuff
         if(move.getTarget().equals("OWN")){
-            double HPincr = (move.getHPEffect() * source.getbaseStats().getmaxHP())/100;
-            double HP = source.getbaseStats().getmaxHP() + HPincr;
-            System.out.printf("%s melakukan heal dan mendapat penambahan HP sebesar %.2f.", source.getName(), HPincr);
-            source.getbaseStats().setHealthPoint(HP);
+            //healnya belom dipisah sm yg ngaruh ke stats buff doang
+            if(move.getHPEffect() > 0){
+                //ada efek healnya, jadi heal
+                double HPincr = (move.getHPEffect() * source.getbaseStats().getmaxHP())/100;
+                double HP = source.getbaseStats().getmaxHP() + HPincr;
+                System.out.printf("%s melakukan heal dan mendapat penambahan HP sebesar %.2f.", source.getName(), HPincr);
+                source.getbaseStats().setHealthPoint(HP);
+            }
             StatsBuff statsBuff = source.getbaseStats().getStatsBuff();
             statsBuff.setAttackBuff((int) statsBuff.getAttackBuff() + move.getAttackEffect());
             statsBuff.setDefenseBuff((int) statsBuff.getDefenseBuff() + move.getDefenseEffect());
             statsBuff.setSpAttBuff((int) statsBuff.getAttackBuff() + move.getSpAttEffect());
             statsBuff.setSpDefBuff((int) statsBuff.getAttackBuff() + move.getSpDefEffect());
+            StatsBuff statsBuffAfter = source.getbaseStats().getStatsBuff();
+            if(!statsBuffAfter.equals(statsBuff)){
+                //cek apakah ada perubahan statsbuff
+                //print status buffnya
+                statsBuff.printStatsBuff(source);
+            }
         }else if(move.getTarget().equals("ENEMY")){
             //kalo enemy berarti pasang statcon/ngaruhin statsbuff
-            //ini yg statsbuff belom :D
+            //ngasih statscon dulu
+            System.out.printf("%s terkena move %s dari %s.\n", target.getName(), move.getName(), source.getName());
             if (move.getStatusCondition() == StatusCondition.BURN){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.burn();
@@ -293,6 +304,18 @@ public class Game {
                 }else{
                     System.out.printf("% telah memiliki status condition lain.\n", target.getName());
                 }
+            }
+            //ngasih pengaruh ke statsbuff lawan
+            StatsBuff statsBuff = target.getbaseStats().getStatsBuff();
+            statsBuff.setAttackBuff((int) statsBuff.getAttackBuff() + move.getAttackEffect());
+            statsBuff.setDefenseBuff((int) statsBuff.getDefenseBuff() + move.getDefenseEffect());
+            statsBuff.setSpAttBuff((int) statsBuff.getAttackBuff() + move.getSpAttEffect());
+            statsBuff.setSpDefBuff((int) statsBuff.getAttackBuff() + move.getSpDefEffect());
+            StatsBuff statsBuffAfter = target.getbaseStats().getStatsBuff();
+            if(!statsBuffAfter.equals(statsBuff)){
+                //cek apakah ada perubahan statsbuff
+                //print status buffnya
+                statsBuff.printStatsBuff(target);
             }
         }
     }
@@ -344,7 +367,7 @@ public class Game {
                         if(!mons.isMonsDead()){
                             chosen = mons;
                             valid = true;
-                            System.out.printf("%s memilih monster %s.\n", current.getName(), chosen.getName());     
+                            System.out.printf("%s memilih monster %s.\n\n", current.getName(), chosen.getName());     
                             break;               
                         }
                     }
@@ -379,7 +402,7 @@ public class Game {
                 if (chosenmove.toLowerCase().equals(move.getName().toLowerCase())){
                     chosen = move;
                     valid = true;
-                    System.out.printf("%s memilih move %s.\n\n", current.getName(), chosen.getName());
+                    System.out.printf("%s memilih move %s.\n", current.getName(), chosen.getName());
                     break;
                 }
             }
@@ -433,10 +456,9 @@ public class Game {
     //awalan turn
     public void newTurn(Player player1, Player player2) {
         System.out.printf("ROUND %d\n", turn);
-        System.out.println("FIGHT\n");
+        System.out.printf("FIGHT\n\n");
         System.out.printf("Monster yang sedang dimainkan %s : %s dengan HP = %.2f\n", player1.getName(), player1.getCurrentMonster().getName(), player1.getCurrentMonster().getbaseStats().getHealthPoint());
         System.out.printf("Monster yang sedang dimainkan %s : %s dengan HP = %.2f\n", player2.getName(), player2.getCurrentMonster().getName(), player2.getCurrentMonster().getbaseStats().getHealthPoint());
-        space();
     }
 
     //akhir turn mencetak status game saat ini

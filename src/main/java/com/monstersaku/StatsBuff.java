@@ -167,4 +167,14 @@ public class StatsBuff {
         this.spDefBuff = 0;
         this.speedBuff = 0;
     }
+
+    //print component statsbuff
+    public void printStatsBuff(Monster mons){
+        System.out.printf("Berikut adalah Stats Buff dari %s.\n", mons.getName());
+        System.out.printf("Attack buff dari %s : %d.\n", mons.getName(), this.attackBuff);
+        System.out.printf("Defense buff dari %s : %d.\n", mons.getName(), this.defenseBuff);
+        System.out.printf("Special Attack buff dari %s : %d.\n", mons.getName(), this.spAttBuff);
+        System.out.printf("Special Defense buff dari %s : %d.\n", mons.getName(), this.spDefBuff);
+        System.out.printf("Speed buff dari %s : %d.\n", mons.getName(), this.speedBuff);
+    }
 }
