@@ -30,7 +30,7 @@ public class Monster {
         this.idMons = monster.getId();
         this.name = monster.getName();
         this.elemenTypes = monster.getelemenTypes();
-        this.baseStats = monster.getbaseStats();
+        this.baseStats = monstat;
         this.Idmoves = monster.getIDmove();
         this.moves = new ArrayList<Move>();
         this.statcon = StatusCondition.NOTHING;
