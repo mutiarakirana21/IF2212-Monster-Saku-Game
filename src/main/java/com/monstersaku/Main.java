@@ -234,7 +234,7 @@ public class Main {
         
 
         //loop game (battle)
-        while(!(player1.isAllDead() && player2.isAllDead())){
+        while(!player1.isAllDead() && !player2.isAllDead()){
             //giliran player1
             game.space();
             game.newTurn(player1, player2);

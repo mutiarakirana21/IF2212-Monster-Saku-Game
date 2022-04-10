@@ -156,6 +156,7 @@ public class Game {
             }else{
                 //gabisa pake move soalnya ga di dalem range accuracynya
                 System.out.printf("Sayang sekali move %s dari %s miss (tidak berhasil).", move.getName(), source.getName());
+                move.setAmmunition(move.getAmmunition() - 1);
             }
         }else{
             if(rand.nextInt(4) == 3){

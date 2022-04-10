@@ -9,3 +9,4 @@ id;name;elementTypes;baseStats;moves
 8;Thwackey;GRASS;70,85,70,55,60,80;1,5
 9;Growlithe;FIRE;55,70,45,70,50,60;1,2,3
 10;Kingler;WATER;55,130,115,50,50,75;1,2
+11;BEBAS;WATER;100,100,100,100,100,100;6,7
