@@ -144,21 +144,23 @@ public class Monster {
 
     //Status Condition Related Methods
     public void nothing(){
-        statcon = StatusCondition.NOTHING;
+        this.statcon = StatusCondition.NOTHING;
     }
+
     public void burn(){
-        statcon = StatusCondition.BURN;
+        this.statcon = StatusCondition.BURN;
     }
     
     public void poison(){
-        statcon = StatusCondition.POISON;
+        this.statcon = StatusCondition.POISON;
     }
     
     public void sleep(){
         Random dice = new Random();
         int number = 1 + dice.nextInt(7);
-        sleep = number;
-        statcon = StatusCondition.SLEEP;
+        this.sleep = number;
+        this.statcon = StatusCondition.SLEEP;
+        System.out.println("1"); //buat debug
     }
     
     public void sleepdecr(){
@@ -171,7 +173,7 @@ public class Monster {
     }
 
     public void paralyze(){
-        statcon = StatusCondition.PARALYZE;
+        this.statcon = StatusCondition.PARALYZE;
         baseStats.setSpeed(baseStats.getSpeed() / 2);
     }
     //number yang dihasilkan menunjukan kemungkinan monster skip ronde (co: number 1 monster skip, 234 tidak skip)

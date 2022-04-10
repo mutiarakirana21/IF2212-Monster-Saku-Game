@@ -119,13 +119,13 @@ public class Game {
                     System.out.println("Burn");
                     break;
                 case POISON:
-                    System.out.println("Poison ");
+                    System.out.println("Poison");
                     break;
                 case SLEEP:
-                    System.out.println("Sleep ");
+                    System.out.println("Sleep");
                     break;
                 case PARALYZE:
-                    System.out.println("Paralyze ");
+                    System.out.println("Paralyze");
                     break;
                 default:
                     System.out.println("-");
@@ -149,21 +149,26 @@ public class Game {
     public void useMove (Monster source, Monster target, Move move, Effectivity eff){
         Random rand = new Random();
         int number = rand.nextInt(100);
-        if(source.getStatcon() != StatusCondition.PARALYZE){
-            if(number <= move.getAccuracy()){
-                //bisa pake movenya kalo angka randomnya ada di range 0-accuracy dari movenya
-                executeMove(source, target, move, eff);
+        if(source.getStatcon() != StatusCondition.SLEEP){
+            if(source.getStatcon() != StatusCondition.PARALYZE){
+                if(number <= move.getAccuracy()){
+                    //bisa pake movenya kalo angka randomnya ada di range 0-accuracy dari movenya
+                    executeMove(source, target, move, eff);
+                }else{
+                    //gabisa pake move soalnya ga di dalem range accuracynya
+                    System.out.printf("Sayang sekali move %s dari %s miss (tidak berhasil).", move.getName(), source.getName());
+                    move.setAmmunition(move.getAmmunition() - 1);
+                }
             }else{
-                //gabisa pake move soalnya ga di dalem range accuracynya
-                System.out.printf("Sayang sekali move %s dari %s miss (tidak berhasil).", move.getName(), source.getName());
-                move.setAmmunition(move.getAmmunition() - 1);
+                if(rand.nextInt(4) == 3){
+                    System.out.printf("Sayang sekali move %s dari %s miss (tidak berhasil) karena monster paralyzed.\n", move.getName(), source.getName());
+                }else{
+                    executeMove(source, target, move, eff);
+                }
             }
-        }else{
-            if(rand.nextInt(4) == 3){
-                System.out.printf("Sayang sekali move %s dari %s miss (tidak berhasil) karena monster paralyzed.\n", move.getName(), source.getName());
-            }else{
-                executeMove(source, target, move, eff);
-            }
+        }else if(source.getStatcon() == StatusCondition.SLEEP){
+            //monsternya kena sleep
+            System.out.printf("%s tidak dapat melakukan move karena sedang sleep. Silakan coba lagi dalam %d turn.\n", source.getName(), source.getnumsleep());
         }
     }
 
@@ -257,9 +262,19 @@ public class Game {
             //healnya belom dipisah sm yg ngaruh ke stats buff doang
             if(move.getHPEffect() > 0){
                 //ada efek healnya, jadi heal
+                if(source.getbaseStats().getHealthPoint() == source.getbaseStats().getmaxHP()){
+                    //HP monster masih penuh, jadi ga keheal (sia-sia)
+                    System.out.printf("%s tidak dapat melakukan heal karena HP masih full.\n", source.getName());
+                }
                 double HPincr = (move.getHPEffect() * source.getbaseStats().getmaxHP())/100;
                 double HP = source.getbaseStats().getmaxHP() + HPincr;
-                System.out.printf("%s melakukan heal dan mendapat penambahan HP sebesar %.2f.", source.getName(), HPincr);
+                if(HP >= source.getbaseStats().getmaxHP()){
+                    //kalo healnya ngelebihin maxHP
+                    HP = source.getbaseStats().getmaxHP();
+                    System.out.printf("%s melakukan heal dan sekarang sudah mencapai maximum HP.\n", source.getName());
+                }else{
+                    System.out.printf("%s melakukan heal dan mendapat penambahan HP sebesar %.2f.\n", source.getName(), HPincr);
+                }
                 source.getbaseStats().setHealthPoint(HP);
             }
             StatsBuff statsBuff = source.getbaseStats().getStatsBuff();
@@ -277,6 +292,7 @@ public class Game {
             //kalo enemy berarti pasang statcon/ngaruhin statsbuff
             //ngasih statscon dulu
             System.out.printf("%s terkena move %s dari %s.\n", target.getName(), move.getName(), source.getName());
+            System.out.printf("%s\n", move.getStatusCondition()); //buat debug
             if (move.getStatusCondition() == StatusCondition.BURN){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.burn();
@@ -299,6 +315,7 @@ public class Game {
                     System.out.printf("% telah memiliki status condition lain.\n", target.getName());
                 }
             }else if (move.getStatusCondition() == StatusCondition.SLEEP){
+                System.out.println("buat debug1"); // buat debugging
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.sleep();
                     System.out.printf("%s terkena status condition sleep selama %d turn.\n", target.getName(), target.getnumsleep());
@@ -333,14 +350,16 @@ public class Game {
                 HPBaru = 0;
                 affected.monsterDie();
             }
+            affected.getbaseStats().setHealthPoint(HPBaru);
         }else if(statcon == StatusCondition.POISON){
             double afterdamage = (double)Math.floor( affected.getbaseStats().getmaxHP() * 0.0625);
-            double HPbaru = affected.getbaseStats().getHealthPoint() - afterdamage;
+            double HPBaru = affected.getbaseStats().getHealthPoint() - afterdamage;
             System.out.printf("Monster %s mendapatkan afterdamage dari poison. HPnya berkurang sebesar %.2f.\n", player.getCurrentMonster().getName(), afterdamage);
-            if(HPbaru <= 0){
-                HPbaru = 0;
+            if(HPBaru <= 0){
+                HPBaru = 0;
                 affected.monsterDie();
             }
+            affected.getbaseStats().setHealthPoint(HPBaru);
         }for(Monster monsterx : player.getListMon()){
             if (monsterx.getStatcon() == StatusCondition.SLEEP){
                 monsterx.sleepdecr();
@@ -357,20 +376,23 @@ public class Game {
             System.out.printf("Silakan pilih move yang tersedia untuk %s.\n", current.getCurrentMonster().getName());
             return current.getCurrentMonster();
         }else{
-            System.out.println("Monster manakah yang ingin digunakan?");
+            System.out.println("Monster manakah yang ingin digunakan? (Masukkan nomornya).");
             current.printAvailableMonsters(); 
             boolean valid = false;
             Monster chosen = current.getCurrentMonster();
             do{
                 String chosenmonster = input.nextLine();
-                Integer chosenmonsidx = (Integer.valueOf(chosenmonster) - 1);
+                Integer chosenmonsidx = 10;
+                if(chosenmonster.equals("1") || chosenmonster.equals("2") || chosenmonster.equals("3") || chosenmonster.equals("4") || chosenmonster.equals("5") || chosenmonster.equals("6")){
+                    chosenmonsidx = (Integer.valueOf(chosenmonster) - 1);
+                }
                 for(int i = 0; i < current.getListMon().size(); i++){
                     Monster mons = current.getListMon().get(i);
                     if(chosenmonsidx == i && !valid){
                         if(!mons.isMonsDead()){
                             chosen = mons;
                             valid = true;
-                            System.out.printf("%s memilih monster %s.\n\n", current.getName(), chosen.getName());     
+                            System.out.printf("%s memilih monster %s.\n", current.getName(), chosen.getName());
                             break;               
                         }
                     }
@@ -402,19 +424,24 @@ public class Game {
         do{
             String chosenmove = input.nextLine();
             for(Move move : current.getCurrentMonster().getMoves()){
-                if (chosenmove.toLowerCase().equals(move.getName().toLowerCase())){
+                if(chosenmove.toLowerCase().equals(move.getName().toLowerCase()) && !move.isAmmunitionZero()){
                     chosen = move;
                     valid = true;
                     System.out.printf("%s memilih move %s.\n", current.getName(), chosen.getName());
                     break;
                 }
+                if(chosenmove.toLowerCase().equals(move.getName().toLowerCase()) && move.isAmmunitionZero()){
+                    //udah nemu movenya tapi amunisinya udah 0 (kurang) berarti gabisa jalan, pilh move lain
+                    System.out.printf("%s tidak dapat dijalankan karena ammunition sudah habis. Silakan pilih move lain.\n", move.getName());
+                }
             }
             if(!valid){
                 if(chosenmove.toLowerCase().equals("help") || chosenmove.toLowerCase().equals("exit") || chosenmove.toLowerCase().equals("view game info") || chosenmove.toLowerCase().equals("view monsters info")){
                     ingameCommands(chosenmove, current, other);
+                }else{
+                    //kalo masukan move tidak valid (tidak ada movenya)
+                    System.out.println("Move tidak valid! silakan pilih move lain.");
                 }
-                //kalo masukan move tidak valid (tidak ada movenya)
-                System.out.println("Move tidak valid! silakan pilih move lain.");
             }
         }while(!valid);
         return chosen;
@@ -429,7 +456,7 @@ public class Game {
         }else if(command.toLowerCase().equals("exit")){
             exit();
         }else{
-            command = ("salah");
+            System.out.println("Command tidak valid! Masukkan command lain.");
         }
     }
 
@@ -491,7 +518,7 @@ public class Game {
 
     //ask what to do
     public void whatToDo(Player player){
-        System.out.println("\n");
+        System.out.printf("\n");
         System.out.println("Sekarang giliran " + player.getName() + ".");
         System.out.println("Apa yang ingin Anda lakukan?");
         System.out.println("[1] Menggunakan Move dari " + player.getCurrentMonster().getName() + ".");

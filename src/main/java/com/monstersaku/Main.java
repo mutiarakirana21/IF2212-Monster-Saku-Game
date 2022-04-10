@@ -57,7 +57,6 @@ public class Main {
                     SpecialMove move = new SpecialMove(idmove, nameMove, elementType, accuracy, priority, ammunition, basePower);
                     listmove.add(move);
                 }
-                System.out.println();    
             }
             CSVReader fileMonster = new CSVReader(new File(Main.class.getResource("configs/monsterpool.csv").toURI()), ";");
             fileMonster.setSkipHeader(true);
@@ -215,7 +214,6 @@ public class Main {
             System.out.println(e.getMessage());
         }
         
-
         Random ran = new Random();
         Player player1 = new Player(name1.toUpperCase(), ListMonsP1);
         for(int i = 0; i < 6; i++){
