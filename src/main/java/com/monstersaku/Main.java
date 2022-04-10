@@ -177,6 +177,7 @@ public class Main {
                                 }
                             }
                         }
+                        monsterp1.getMoves().add(new DefaultMove("Default"));
                         ListMonsP1.add(monsterp1);
                     }if(id == monsterrand2){
                         String[] basestat2 = line1[3].split(",", 10);
@@ -204,6 +205,7 @@ public class Main {
                                 }
                             }
                         }
+                        monsterp2.getMoves().add(new DefaultMove("Default"));
                         ListMonsP2.add(monsterp2);
                     }
                     id++;
@@ -245,7 +247,7 @@ public class Main {
                     valid1 = true;
                 }
             }
-            Move p1chosenmove = null;
+            Move p1chosenmove = player1.getCurrentMonster().getDefaultMove(); 
             Monster p1chosenmons = player1.getCurrentMonster(); 
             if(action1.equals("1")){
                 //use move
@@ -274,7 +276,7 @@ public class Main {
                     valid2 = true;
                 }
             }
-            Move p2chosenmove = null;
+            Move p2chosenmove = player2.getCurrentMonster().getDefaultMove(); 
             Monster p2chosenmons = player2.getCurrentMonster(); 
             if(action2.equals("1")){
                 //use move

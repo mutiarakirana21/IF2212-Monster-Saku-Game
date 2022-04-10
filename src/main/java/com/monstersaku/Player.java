@@ -54,13 +54,13 @@ public class Player {
 
     public void printAvailableMonsters(){
         System.out.println("Monster, HP");
-        for(int i  = 0; i < 6; i++){
+        for(int i = 0; i < this.listmon.size(); i++){
             Monster monsterx = this.getListMon().get(i);
             if(!monsterx.isMonsDead() && !monsterx.equals(this.currentmons)){
                 //nampilin monster yang masih hidup aja
                 String monstername = monsterx.getName();
                 Double HP = monsterx.getbaseStats().getHealthPoint();
-                System.out.printf("%s, %.2f\n", monstername, HP);
+                System.out.printf("[%d] %s, %.2f\n", (i + 1), monstername, HP);
             }
         }
     }

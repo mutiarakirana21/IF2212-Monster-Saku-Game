@@ -97,6 +97,7 @@ public class Monster {
         return dead;
     }
     
+    //choosing moves related methods
     public void printAvailableMoves(){
         System.out.println("Move name, Move type, Ammuniton");
         for(int i = 0; i < this.getMoves().size(); i++){
@@ -129,6 +130,16 @@ public class Monster {
             }
         }
         return isunavailable;
+    }
+
+    public DefaultMove getDefaultMove(){
+        DefaultMove defmove = null;
+        for(Move move : this.moves){
+            if(move instanceof DefaultMove){
+                defmove = (DefaultMove) move;
+            }
+        }
+        return defmove;
     }
 
     //Status Condition Related Methods

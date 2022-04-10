@@ -245,8 +245,8 @@ public class Game {
         if (HPSource <= 0){
             HPBaru = 0.0;
             target.monsterDie();
+            System.out.printf("%s mari karena menggunakan default movenya.\n", source.getName());
         }
-        System.out.printf("%s mari karena menggunakan default movenya.\n", source.getName());
         source.getbaseStats().setHealthPoint(HPSource);
     }
 
@@ -362,8 +362,10 @@ public class Game {
             Monster chosen = current.getCurrentMonster();
             do{
                 String chosenmonster = input.nextLine();
-                for(Monster mons : current.getListMon()){
-                    if(chosenmonster.toLowerCase().equals(mons.getName().toLowerCase()) && !valid){
+                Integer chosenmonsidx = (Integer.valueOf(chosenmonster) - 1);
+                for(int i = 0; i < current.getListMon().size(); i++){
+                    Monster mons = current.getListMon().get(i);
+                    if(chosenmonsidx == i && !valid){
                         if(!mons.isMonsDead()){
                             chosen = mons;
                             valid = true;
@@ -391,7 +393,7 @@ public class Game {
         if(current.getCurrentMonster().isAllMovesUnavailable()){
             //kalo misalnya udah gaada move yang bisa dipilih
             System.out.println("Sayang sekali ammunition semua move sudah habis, terpaksa menggunakan default move.");
-            return new DefaultMove("Default");
+            return chosen;
         }
         System.out.println("Move manakah yang ingin digunakan?");
         current.getCurrentMonster().printAvailableMoves();
