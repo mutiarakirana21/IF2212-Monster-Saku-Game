@@ -18,6 +18,13 @@ Jika kedua pemain memilih move, maka kedua move akan dibandingkan priority-nya. 
 ##### 18220104 - Gresya Angelina E Leman
 
 ### Cara Kompilasi Program :
+#### [1] Menggunakan Gradle
+1. Clone repository ini. Selain melakukan clone repository, folder repository ini dapat di-download dalam bentuk file.zip, lalu di-extract ke suatu folder pada device yang digunakan untuk menjalankan program.
+2. Buka terminal, lalu buka folder IF2212-Monster-Saku-Game
+3. Masukkan command "gradlew build", kemudian tekan enter.
+4. Setelah success build, masukkan command "gradlew run" atau dapat juga menggunakan command "gradlew -q --console plain run" untuk tampilan yang lebih rapi/bersih. Lalu, tekan enter.
+
+#### [2] Menggunakan Compiler Java
 1. Download dan set up compiler java pada device yang akan digunakan.
 2. Clone repository ini.
 3. Selain melakukan clone repository, folder repository ini dapat di-download dalam bentuk file.zip, lalu di-extract ke suatu folder pada device yang digunakan untuk menjalankan program.
