@@ -157,10 +157,9 @@ public class Monster {
     
     public void sleep(){
         Random dice = new Random();
-        int number = 1 + dice.nextInt(7);
+        int number = 2 + dice.nextInt(7);
         this.sleep = number;
         this.statcon = StatusCondition.SLEEP;
-        System.out.println("1"); //buat debug
     }
     
     public void sleepdecr(){
@@ -178,4 +177,9 @@ public class Monster {
     }
     //number yang dihasilkan menunjukan kemungkinan monster skip ronde (co: number 1 monster skip, 234 tidak skip)
 
+    //buat debug
+    // public void printBuff(){
+    //     StatsBuff ini = this.baseStats.getStatsBuff();
+    //     System.out.printf("%d, %d, %d, %d, %d\n", ini.getAB(), ini.getDB(), ini.getSAB(), ini.getSDB(), ini.getSB());
+    // }
 }

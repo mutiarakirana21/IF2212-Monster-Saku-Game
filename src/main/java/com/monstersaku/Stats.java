@@ -55,19 +55,19 @@ public class Stats{
         return healthPoint;
     }
     public double getAttack() {
-        return attack * statBuff.getAttackBuff();
+        return Math.floor(attack * statBuff.getAttackBuff());
     }
     public double getDefense() {
-        return defense * statBuff.getDefenseBuff();
+        return Math.floor(defense * statBuff.getDefenseBuff());
     }
     public double getSpecialAttack() {
-        return specialAttack * statBuff.getSpecialAttackBuff();
+        return Math.floor(specialAttack * statBuff.getSpecialAttackBuff());
     }
     public double getSpecialDefense() {
-        return specialDefense * statBuff.getSpecialDefenseBuff();
+        return Math.floor(specialDefense * statBuff.getSpecialDefenseBuff());
     }
     public double getSpeed() {
-        return speed * statBuff.getSpeedBuff();
+        return Math.floor(speed * statBuff.getSpeedBuff());
     }
 
     public StatsBuff getStatsBuff(){

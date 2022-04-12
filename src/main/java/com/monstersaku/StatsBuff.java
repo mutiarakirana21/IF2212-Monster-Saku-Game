@@ -12,6 +12,27 @@ public class StatsBuff {
         resetbuff();
     }
 
+    //getter
+    public int getAB(){
+        return attackBuff;
+    }
+
+    public int getDB(){
+        return defenseBuff;
+    }
+
+    public int getSAB(){
+        return spAttBuff;
+    }
+
+    public int getSDB(){
+        return spDefBuff;
+    }
+
+    public int getSB(){
+        return speedBuff;
+    }
+
     //setter
     public void setAttackBuff(int ab){
         this.attackBuff = ab;
@@ -36,24 +57,24 @@ public class StatsBuff {
 
     //methods buff
     public double getAttackBuff(){
-        int x = attackBuff;
+        int x = this.attackBuff;
         double buff = 1;
         if(x == -4){
-            buff = 2/6;
+            buff = (double)2/6;
         }else if(x == -3){
-            buff = 2/5;
+            buff = (double)2/5;
         }else if(x == -2){
-            buff = 2/4;
+            buff = (double)2/4;
         }else if(x == -1){
-            buff = 2/3;
+            buff = (double)2/3;
         }else if(x == 0){
             buff = 1;
         }else if(x == 1){
-            buff = 3/2;
+            buff = (double)3/2;
         }else if(x == 2){
             buff = 4/2;
         }else if(x == 3){
-            buff = 5/2;
+            buff = (double)5/2;
         }else if(x == 4){
             buff = 6/2;
         }
@@ -61,24 +82,24 @@ public class StatsBuff {
     }
  
     public double getDefenseBuff(){
-        int x = defenseBuff;
+        int x = this.defenseBuff;
         double buff = 1;
         if(x == -4){
-            buff = 2/6;
+            buff = (double)2/6;
         }else if(x == -3){
-            buff = 2/5;
+            buff = (double)2/5;
         }else if(x == -2){
-            buff = 2/4;
+            buff = (double)2/4;
         }else if(x == -1){
-            buff = 2/3;
+            buff = (double)2/3;
         }else if(x == 0){
             buff = 1;
         }else if(x == 1){
-            buff = 3/2;
+            buff = (double)3/2;
         }else if(x == 2){
             buff = 4/2;
         }else if(x == 3){
-            buff = 5/2;
+            buff = (double)5/2;
         }else if(x == 4){
             buff = 6/2;
         }
@@ -86,24 +107,24 @@ public class StatsBuff {
      }
  
     public double getSpecialAttackBuff(){
-        int x = spAttBuff;
+        int x = this.spAttBuff;
         double buff = 1;
         if(x == -4){
-            buff = 2/6;
+            buff = (double)2/6;
         }else if(x == -3){
-            buff = 2/5;
+            buff = (double)2/5;
         }else if(x == -2){
-            buff = 2/4;
+            buff = (double)2/4;
         }else if(x == -1){
-            buff = 2/3;
+            buff = (double)2/3;
         }else if(x == 0){
             buff = 1;
         }else if(x == 1){
-            buff = 3/2;
+            buff = (double)3/2;
         }else if(x == 2){
             buff = 4/2;
         }else if(x == 3){
-            buff = 5/2;
+            buff = (double)5/2;
         }else if(x == 4){
             buff = 6/2;
         }
@@ -111,24 +132,24 @@ public class StatsBuff {
     }
  
     public double getSpecialDefenseBuff(){
-        int x = spDefBuff;
+        int x = this.spDefBuff;
         double buff = 1;
         if(x == -4){
-            buff = 2/6;
+            buff = (double)2/6;
         }else if(x == -3){
-            buff = 2/5;
+            buff = (double)2/5;
         }else if(x == -2){
-            buff = 2/4;
+            buff = (double)2/4;
         }else if(x == -1){
-            buff = 2/3;
+            buff = (double)2/3;
         }else if(x == 0){
             buff = 1;
         }else if(x == 1){
-            buff = 3/2;
+            buff = (double)3/2;
         }else if(x == 2){
             buff = 4/2;
         }else if(x == 3){
-            buff = 5/2;
+            buff = (double)5/2;
         }else if(x == 4){
             buff = 6/2;
         }
@@ -136,24 +157,24 @@ public class StatsBuff {
      }
  
     public double getSpeedBuff(){
-        int x = speedBuff;
+        int x = this.speedBuff;
         double buff = 1;
         if(x == -4){
-            buff = 2/6;
+            buff = (double)2/6;
         }else if(x == -3){
-            buff = 2/5;
+            buff = (double)2/5;
         }else if(x == -2){
-            buff = 2/4;
+            buff = (double)2/4;
         }else if(x == -1){
-            buff = 2/3;
+            buff = (double)2/3;
         }else if(x == 0){
             buff = 1;
         }else if(x == 1){
-            buff = 3/2;
+            buff = (double)3/2;
         }else if(x == 2){
             buff = 4/2;
         }else if(x == 3){
-            buff = 5/2;
+            buff = (double)5/2;
         }else if(x == 4){
             buff = 6/2;
         }
