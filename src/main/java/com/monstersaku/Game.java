@@ -153,6 +153,7 @@ public class Game {
             if(source.getStatcon() != StatusCondition.PARALYZE){
                 if(number <= move.getAccuracy()){
                     //bisa pake movenya kalo angka randomnya ada di range 0-accuracy dari movenya
+                    System.out.printf("%s menggunakan move %s!", source.getName(), move.getName());
                     executeMove(source, target, move, eff);
                 }else{
                     //gabisa pake move soalnya ga di dalem range accuracynya
@@ -163,6 +164,7 @@ public class Game {
                 if(rand.nextInt(4) == 3){
                     System.out.printf("Sayang sekali move %s dari %s miss (tidak berhasil) karena monster paralyzed.\n", move.getName(), source.getName());
                 }else{
+                    System.out.printf("%s menggunakan move %s!", source.getName(), move.getName());
                     executeMove(source, target, move, eff);
                 }
             }
@@ -198,7 +200,7 @@ public class Game {
         }
         Double finaldamage = (Double)Math.floor((move.getBasePower() * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
         Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik %s.\n\n", target.getName(), finaldamage, move.getName(), source.getName());
+        System.out.printf("\n%s terkena damage sebesar %.2f dari move %s milik %s.\n\n", target.getName(), finaldamage, move.getName(), source.getName());
         if (HPBaru <= 0){
             HPBaru = 0.0;
             target.monsterDie();
@@ -217,9 +219,9 @@ public class Game {
         }else{
             burn = 1;
         }
-        float finaldamage = (float)Math.floor((move.getBasePower() * ((source.getbaseStats().getSpecialAttack()) / (target.getbaseStats().getSpecialDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
+        Double finaldamage = (Double)Math.floor((move.getBasePower() * ((source.getbaseStats().getSpecialAttack()) / (target.getbaseStats().getSpecialDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
         Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        System.out.printf("%s terkena damage sebesar %.2f dari move %s milik monster %s.\n", target.getName(), finaldamage, move.getName(), source.getName());
+        System.out.printf("\n%s terkena damage sebesar %.2f dari move %s milik monster %s.\n", target.getName(), finaldamage, move.getName(), source.getName());
         if (HPBaru <= 0){
             HPBaru = 0.0;
             target.monsterDie();
@@ -239,19 +241,21 @@ public class Game {
         }else{
             burn = 1;
         }
-        float finaldamage = (float)Math.floor((50 * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
+        Double finaldamage = (Double)Math.floor((50 * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
         Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        System.out.printf("%s terkena damage sebesar %.2f dari default move milik %s.\n", target.getName(), finaldamage, source.getName());
+        System.out.printf("\n%s terkena damage sebesar %.2f dari default move milik %s.\n", target.getName(), finaldamage, source.getName());
         if (HPBaru <= 0){
             HPBaru = 0.0;
             target.monsterDie();
         }
         target.getbaseStats().setHealthPoint(HPBaru);
-        Double HPSource = Math.floor(source.getbaseStats().getHealthPoint() - (1/4) * source.getbaseStats().getmaxHP());
+        Double sourcedmg = (1/4) * source.getbaseStats().getmaxHP();
+        Double HPSource = Math.floor(source.getbaseStats().getHealthPoint() - sourcedmg);
+        System.out.printf("%s terkena damage sebesar %.2f dari penggunaan default movenya.\n", source.getName(), sourcedmg);
         if (HPSource <= 0){
             HPBaru = 0.0;
             target.monsterDie();
-            System.out.printf("%s mari karena menggunakan default movenya.\n", source.getName());
+            System.out.printf("%s mati karena menggunakan default movenya.\n", source.getName());
         }
         source.getbaseStats().setHealthPoint(HPSource);
     }
@@ -291,8 +295,7 @@ public class Game {
         }else if(move.getTarget().equals("ENEMY")){
             //kalo enemy berarti pasang statcon/ngaruhin statsbuff
             //ngasih statscon dulu
-            System.out.printf("%s terkena move %s dari %s.\n", target.getName(), move.getName(), source.getName());
-            System.out.printf("%s\n", move.getStatusCondition()); //buat debug
+            System.out.printf("\n%s terkena move %s dari %s.\n", target.getName(), move.getName(), source.getName());
             if (move.getStatusCondition() == StatusCondition.BURN){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.burn();
@@ -315,7 +318,6 @@ public class Game {
                     System.out.printf("% telah memiliki status condition lain.\n", target.getName());
                 }
             }else if (move.getStatusCondition() == StatusCondition.SLEEP){
-                System.out.println("buat debug1"); // buat debugging
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.sleep();
                     System.out.printf("%s terkena status condition sleep selama %d turn.\n", target.getName(), target.getnumsleep());
@@ -345,7 +347,7 @@ public class Game {
         if(statcon == StatusCondition.BURN){
             double afterdamage = affected.getbaseStats().getmaxHP() * 0.125; 
             double HPBaru = affected.getbaseStats().getHealthPoint() - afterdamage;
-            System.out.printf("Monster %s mendapatkan afterdamage dari burn. HPnya berkurang sebesar %.2f.\n", player.getCurrentMonster().getName(), afterdamage);
+            System.out.printf("%s mendapatkan afterdamage dari burn. HPnya berkurang sebesar %.2f.\n", player.getCurrentMonster().getName(), afterdamage);
             if(HPBaru <= 0 ){
                 HPBaru = 0;
                 affected.monsterDie();
@@ -354,7 +356,7 @@ public class Game {
         }else if(statcon == StatusCondition.POISON){
             double afterdamage = (double)Math.floor( affected.getbaseStats().getmaxHP() * 0.0625);
             double HPBaru = affected.getbaseStats().getHealthPoint() - afterdamage;
-            System.out.printf("Monster %s mendapatkan afterdamage dari poison. HPnya berkurang sebesar %.2f.\n", player.getCurrentMonster().getName(), afterdamage);
+            System.out.printf("%s mendapatkan afterdamage dari poison. HPnya berkurang sebesar %.2f.\n", player.getCurrentMonster().getName(), afterdamage);
             if(HPBaru <= 0){
                 HPBaru = 0;
                 affected.monsterDie();
@@ -536,10 +538,15 @@ public class Game {
         //return true kalo monster terganti
         boolean switched = false;
         if(current.getCurrentMonster().isMonsDead()){
-            Monster replacement = chooseMonster(current, other, input);
-            current.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-            current.switchCurrMonster(replacement);
-            switched = true;
+            if(!current.isNoMoreMonsterAvailable()){
+                //masih ada monster lain yang masih hidup
+                Monster replacement = chooseMonster(current, other, input);
+                current.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
+                current.switchCurrMonster(replacement);
+                switched = true;
+            }else{
+                System.out.printf("Oh tidak! Monster terakhir %s sudah mati!\n", current.getName());
+            }
         }
         return switched;
     }

@@ -30,11 +30,22 @@ public class Main {
                     String target = row[7];
                     String state = row[8];
 
-                    StatusCondition statcon;
-                    if(!state.equals("-")){
-                        statcon = StatusCondition.valueOf(state);
-                    }else{
-                        statcon = StatusCondition.NOTHING;
+                    StatusCondition statcon = StatusCondition.NOTHING;
+                    switch(state){
+                        case "BURN":
+                            statcon = StatusCondition.BURN;
+                            break;
+                        case "POISON":
+                            statcon = StatusCondition.POISON;
+                            break;
+                        case "SLEEP":
+                            statcon = StatusCondition.SLEEP;
+                            break;
+                        case "PARALYZE":
+                            statcon = StatusCondition.PARALYZE;
+                            break;
+                        default: 
+                            statcon = StatusCondition.NOTHING;
                     }
                     String movestats = row[9];
                     String[] arrayofmovestats = movestats.split(",", 10);
@@ -46,12 +57,10 @@ public class Main {
                     int speed = Integer.parseInt(arrayofmovestats[5]);
                     StatusMove moveStatus = new StatusMove(idmove, nameMove, elementType, accuracy, priority, ammunition, target, statcon, healthPoint, attack, defense, specialAttack, specialDefense, speed);
                     listmove.add(moveStatus);
-                    // mov.printMove();  
                 }else if (tipeMove.equals("NORMAL")){
                     int basePower = Integer.parseInt(row[8]);
                     NormalMove move = new NormalMove(idmove, nameMove, elementType, accuracy, priority, ammunition, basePower);
                     listmove.add(move);
-                    // mov.printMove();
                 }else if (tipeMove.equals("SPECIAL")){
                     int basePower = Integer.parseInt(row[8]);
                     SpecialMove move = new SpecialMove(idmove, nameMove, elementType, accuracy, priority, ammunition, basePower);
@@ -382,5 +391,4 @@ public class Main {
         }
         game.endGame(winner);
     }
-    
 }

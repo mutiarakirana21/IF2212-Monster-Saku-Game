@@ -14,6 +14,7 @@ public class StatusMove extends Move{
     public StatusMove(int id, String name, ElementType elementType, int accuracy, int priority, int ammunition, String target, StatusCondition statcon, int hpEffect, int attackEffect, int defenseEffect, int spAttEffect, int spDefEffect, int speedEffect){
         super(id, name, elementType, accuracy, priority, ammunition);
         this.target = target;
+        this.statcon = statcon;
         this.hpEffect = hpEffect;
         this.attackEffect = attackEffect;
         this.defenseEffect = defenseEffect;
@@ -25,6 +26,7 @@ public class StatusMove extends Move{
     public StatusMove(StatusMove statmove, int ammunition){
         super(statmove, ammunition);
         this.target = statmove.getTarget();
+        this.statcon = statmove.getStatusCondition();
         this.hpEffect = statmove.getHPEffect();
         this.attackEffect = statmove.getAttackEffect();
         this.defenseEffect = statmove.getDefenseEffect();
@@ -63,4 +65,9 @@ public class StatusMove extends Move{
     public StatusCondition getStatusCondition(){
         return statcon;
     }
+
+    //buat debug
+    // public void printMoveProperties(){
+    //     System.out.printf("%d, %s, %s, %d, %d, %d, %s, %s, %d, %d, %d, %d, %d, %d\n", super.getid(), super.getName(), super.getElType(), super.getAccuracy(), super.getPriority(), super.getAmmunition(), target, statcon, hpEffect, attackEffect, defenseEffect, spAttEffect, spDefEffect, speedEffect);
+    // }
 }
