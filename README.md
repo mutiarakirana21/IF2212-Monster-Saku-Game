@@ -12,10 +12,14 @@ Saat giliran pemain, pemain dapat memilih 1 dari 2 battle commands, yaitu memili
 Jika kedua pemain memilih move, maka kedua move akan dibandingkan priority-nya. Priority move yang lebih besar akan bergerak lebih dahulu. Jika priority-nya sama, maka move yang lebih dahulu dieksekusi adalah monster dengan speed yang lebih tinggi. Jika speed kedua monster sama, maka akan di-random urutannya. Jika salah satu pemain memilih untuk switch current monster dan yang lainnya memilih move, maka current monster akan ditukar terlebih dahulu lalu dilakukan move. Jika kedua pemain memilih untuk switch current monster, maka kedua current monster pemain akan berganti dan langsung bergerak ke turn selanjutnya. Permainan akan berakhir dan dimenangkan pemain jika semua monster dari pemain lawan sudah mati.
 
 ### Anggota Kelompok 18 - GWS
-##### 18219046 - Michael Ryan Martin 
-##### 18220038 - Akmal Jauhar Sidqi
-##### 18220084 - Dewa Ayu Mutiara Kirana P D
-##### 18220104 - Gresya Angelina E Leman
+18219046 - Michael Ryan Martin 
+
+18220038 - Akmal Jauhar Sidqi
+
+18220084 - Dewa Ayu Mutiara Kirana P D
+
+18220104 - Gresya Angelina E Leman
+
 
 ### Cara Kompilasi Program :
 #### [1] Menggunakan Gradle
