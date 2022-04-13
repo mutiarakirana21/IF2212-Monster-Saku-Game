@@ -309,11 +309,11 @@ public class Main {
                 if(firstmove == p1chosenmove){
                     //p1 duluan
                     //kalo mati pilih monster baru
-                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
+                    game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff, player1, player2);
                     bp1 = game.replaceMon(player2, player1, input);
                     if(!bp1){
                         //kalo monster dari player2 belom mati dari serangan monster player1, bisa pake movenya
-                        game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
+                        game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff, player2, player1);
                     }
                     //kalo monster player2 mati, diganti
                     bp1 = game.replaceMon(player1, player2, input);
@@ -327,11 +327,11 @@ public class Main {
                 }else{
                     //p2 duluan
                     //kalo mati pilih monster baru
-                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
+                    game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff, player2, player1);
                     bp2 = game.replaceMon(player1, player2, input);
                     if(!bp2){
                         //kalo monster dari player1 belom mati dari serangan monster player2, bisa pake movenya
-                        game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
+                        game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff, player1, player2);
                     }
                     //kalo monster player1 mati, diganti
                     bp2 = game.replaceMon(player2, player1, input);
@@ -347,7 +347,7 @@ public class Main {
                 player2.switchCurrMonster(p2chosenmons);
                 //pake movenya
                 //kalo mati pilih monster baru
-                game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff);
+                game.useMove(player1.getCurrentMonster(), player2.getCurrentMonster(), p1chosenmove, listeff, player1, player2);
                 game.replaceMon(player2, player1, input);
                 //after effect
                 //kalo mati pilih monster baru
@@ -359,7 +359,7 @@ public class Main {
                 //p1 switch, p2 move
                 player1.switchCurrMonster(p1chosenmons);
                 //pake move
-                game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff);
+                game.useMove(player2.getCurrentMonster(), player1.getCurrentMonster(), p2chosenmove, listeff, player2, player1);
                 game.replaceMon(player1, player2, input);
                 //after effect
                 //kalo mati ganti

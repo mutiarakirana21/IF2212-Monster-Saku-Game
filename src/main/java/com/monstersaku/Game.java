@@ -146,26 +146,26 @@ public class Game {
     }
 
     //Move Related Commands
-    public void useMove (Monster source, Monster target, Move move, Effectivity eff){
+    public void useMove (Monster source, Monster target, Move move, Effectivity eff, Player player1, Player player2){
         Random rand = new Random();
         int number = rand.nextInt(100);
         if(source.getStatcon() != StatusCondition.SLEEP){
             if(source.getStatcon() != StatusCondition.PARALYZE){
                 if(number <= move.getAccuracy()){
                     //bisa pake movenya kalo angka randomnya ada di range 0-accuracy dari movenya
-                    System.out.printf("\n%s menggunakan move %s!\n", source.getName(), move.getName());
-                    executeMove(source, target, move, eff);
+                    System.out.printf("\n%s (Monster %s) menggunakan move %s!\n", source.getName(), player1.getName(), move.getName());
+                    executeMove(source, target, move, eff, player1, player2);
                 }else{
                     //gabisa pake move soalnya ga di dalem range accuracynya
-                    System.out.printf("\nSayang sekali move %s dari %s miss (tidak berhasil).\n", move.getName(), source.getName());
+                    System.out.printf("\nSayang sekali move %s dari %s (Monster %s) miss (tidak berhasil).\n", move.getName(), source.getName(), player1.getName());
                     move.setAmmunition(move.getAmmunition() - 1);
                 }
             }else{
                 if(rand.nextInt(4) == 3){
-                    System.out.printf("\nSayang sekali move %s dari %s miss (tidak berhasil) karena monster paralyzed.\n", move.getName(), source.getName());
+                    System.out.printf("\nSayang sekali move %s dari %s (Monster %s) miss (tidak berhasil) karena monster paralyzed.\n", move.getName(), source.getName(), player1.getName());
                 }else{
                     System.out.printf("%s menggunakan move %s!\n", source.getName(), move.getName());
-                    executeMove(source, target, move, eff);
+                    executeMove(source, target, move, eff, player1, player2);
                 }
             }
         }else if(source.getStatcon() == StatusCondition.SLEEP){
@@ -174,20 +174,20 @@ public class Game {
         }
     }
 
-    public void executeMove(Monster source, Monster target, Move move, Effectivity eff){
+    public void executeMove(Monster source, Monster target, Move move, Effectivity eff, Player player1, Player player2){
         if(move instanceof NormalMove){
-            useNormalMove(source, target, (NormalMove) move, eff);
+            useNormalMove(source, target, (NormalMove) move, eff, player1, player2);
         }else if(move instanceof SpecialMove){
-            useSpecialMove(source, target, (SpecialMove) move, eff);
+            useSpecialMove(source, target, (SpecialMove) move, eff, player1, player2);
         }else if(move instanceof StatusMove){
-            useStatusMove(source, target, (StatusMove) move);
+            useStatusMove(source, target, (StatusMove) move, player1, player2);
         }else if(move instanceof DefaultMove){
-            useDefaultMove(source, target, move, eff);
+            useDefaultMove(source, target, move, eff, player1, player2);
         }
         move.setAmmunition(move.getAmmunition() - 1);
     }
 
-    public void useNormalMove (Monster source, Monster target, NormalMove move, Effectivity eff){
+    public void useNormalMove (Monster source, Monster target, NormalMove move, Effectivity eff, Player player1, Player player2){
         double ElementEffectivity = 1;
         for (ElementType e : target.getelemenTypes()){
             ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
@@ -200,7 +200,7 @@ public class Game {
         }
         Double finaldamage = (Double)Math.floor((move.getBasePower() * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
         Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        System.out.printf("\n%s terkena damage sebesar %.2f dari move %s milik %s.\n\n", target.getName(), finaldamage, move.getName(), source.getName());
+        System.out.printf("\n%s (Monster %s) terkena damage sebesar %.2f dari move %s milik %s (Monster %s).\n\n", target.getName(), player2.getName(), finaldamage, move.getName(), source.getName(), player1.getName());
         if (HPBaru <= 0){
             HPBaru = 0.0;
             target.monsterDie();
@@ -208,7 +208,7 @@ public class Game {
         target.getbaseStats().setHealthPoint(HPBaru);
     }
     
-    public void useSpecialMove (Monster source, Monster target, SpecialMove move, Effectivity eff){
+    public void useSpecialMove (Monster source, Monster target, SpecialMove move, Effectivity eff, Player player1, Player player2){
         double ElementEffectivity = 1;
         for (ElementType e : target.getelemenTypes()){
             ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
@@ -221,7 +221,7 @@ public class Game {
         }
         Double finaldamage = (Double)Math.floor((move.getBasePower() * ((source.getbaseStats().getSpecialAttack()) / (target.getbaseStats().getSpecialDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
         Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        System.out.printf("\n%s terkena damage sebesar %.2f dari move %s milik monster %s.\n", target.getName(), finaldamage, move.getName(), source.getName());
+        System.out.printf("\n%s (Monster %s) terkena damage sebesar %.2f dari move %s milik %s (Monster %s).\n\n", target.getName(), player2.getName(), finaldamage, move.getName(), source.getName(), player1.getName());
         if (HPBaru <= 0){
             HPBaru = 0.0;
             target.monsterDie();
@@ -230,7 +230,7 @@ public class Game {
 
     }
     
-    public void useDefaultMove (Monster source, Monster target, Move move, Effectivity eff){
+    public void useDefaultMove (Monster source, Monster target, Move move, Effectivity eff, Player player1, Player player2){
         double ElementEffectivity = 1;
         for (ElementType e : target.getelemenTypes()){
             ElementEffectivity = ElementEffectivity * eff.getEffectivity(move.getElType(), e);
@@ -243,7 +243,7 @@ public class Game {
         }
         Double finaldamage = (Double)Math.floor((50 * ((source.getbaseStats().getAttack()) / (target.getbaseStats().getDefense())) + 2 ) * Math.floor(Math.random()*(1-0.85+1)+0.85) * ElementEffectivity * burn);
         Double HPBaru = target.getbaseStats().getHealthPoint() - finaldamage;
-        System.out.printf("\n%s terkena damage sebesar %.2f dari default move milik %s.\n", target.getName(), finaldamage, source.getName());
+        System.out.printf("\n%s (Monster %s) terkena damage sebesar %.2f dari default move milik %s (Monster %s).\n", target.getName(), player2.getName(), finaldamage, source.getName(), player1.getName());
         if (HPBaru <= 0){
             HPBaru = 0.0;
             target.monsterDie();
@@ -251,16 +251,16 @@ public class Game {
         target.getbaseStats().setHealthPoint(HPBaru);
         Double sourcedmg = (1/4) * source.getbaseStats().getmaxHP();
         Double HPSource = Math.floor(source.getbaseStats().getHealthPoint() - sourcedmg);
-        System.out.printf("%s terkena damage sebesar %.2f dari penggunaan default movenya.\n", source.getName(), sourcedmg);
+        System.out.printf("%s (Monster %s) terkena damage sebesar %.2f dari penggunaan default movenya.\n", source.getName(), player1.getName(), sourcedmg);
         if (HPSource <= 0){
             HPBaru = 0.0;
             target.monsterDie();
-            System.out.printf("%s mati karena menggunakan default movenya.\n", source.getName());
+            System.out.printf("%s (Monster %s) mati karena menggunakan default movenya.\n", source.getName(), player1.getName());
         }
         source.getbaseStats().setHealthPoint(HPSource);
     }
 
-    public void useStatusMove (Monster source, Monster target, StatusMove move){
+    public void useStatusMove (Monster source, Monster target, StatusMove move, Player player1, Player player2){
         //kalo diri sendiri harusnya heal/ganti statsbuff
         if(move.getTarget().equals("OWN")){
             //healnya belom dipisah sm yg ngaruh ke stats buff doang
@@ -268,16 +268,16 @@ public class Game {
                 //ada efek healnya, jadi heal
                 if(source.getbaseStats().getHealthPoint() == source.getbaseStats().getmaxHP()){
                     //HP monster masih penuh, jadi ga keheal (sia-sia)
-                    System.out.printf("%s tidak dapat melakukan heal karena HP masih full.\n", source.getName());
+                    System.out.printf("%s (Monster %s) tidak dapat melakukan heal karena HP masih full.\n", source.getName(), player1.getName());
                 }
                 double HPincr = (move.getHPEffect() * source.getbaseStats().getmaxHP())/100;
                 double HP = source.getbaseStats().getmaxHP() + HPincr;
                 if(HP >= source.getbaseStats().getmaxHP()){
                     //kalo healnya ngelebihin maxHP
                     HP = source.getbaseStats().getmaxHP();
-                    System.out.printf("%s melakukan heal dan sekarang sudah mencapai maximum HP.\n", source.getName());
+                    System.out.printf("%s (Monster %s) melakukan heal dan sekarang sudah mencapai maximum HP.\n", source.getName(), player1.getName());
                 }else{
-                    System.out.printf("%s melakukan heal dan mendapat penambahan HP sebesar %.2f.\n", source.getName(), HPincr);
+                    System.out.printf("%s (Monster %s) melakukan heal dan mendapat penambahan HP sebesar %.2f.\n", source.getName(), player1.getName(), HPincr);
                 }
                 source.getbaseStats().setHealthPoint(HP);
             }
@@ -292,34 +292,34 @@ public class Game {
         }else if(move.getTarget().equals("ENEMY")){
             //kalo enemy berarti pasang statcon/ngaruhin statsbuff
             //ngasih statscon dulu
-            System.out.printf("\n%s terkena move %s dari %s.\n", target.getName(), move.getName(), source.getName());
+            System.out.printf("\n%s (Monster %s) terkena move %s dari %s (Monster %s) .\n", target.getName(), player2.getName(), move.getName(), source.getName(), player1.getName());
             if (move.getStatusCondition() == StatusCondition.BURN){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.burn();
-                    System.out.printf("%s terkena status condition burn.\n", target.getName());
+                    System.out.printf("%s (Monster %s) terkena status condition burn.\n", target.getName(), player2.getName());
                 }else{
-                    System.out.printf("%s telah memiliki status condition lain.\n", target.getName());
+                    System.out.printf("%s (Monster %s) telah memiliki status condition lain.\n", target.getName(), player2.getName());
                 }
             }else if (move.getStatusCondition() == StatusCondition.POISON){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.poison();
-                    System.out.printf("%s terkena status condition poison.\n", target.getName());
+                    System.out.printf("%s (Monster %s) terkena status condition poison.\n", target.getName(), player2.getName());
                 }else{
-                    System.out.printf("% telah memiliki status condition lain.\n", target.getName());
+                    System.out.printf("%s (Monster %s) telah memiliki status condition lain.\n", target.getName(), player2.getName());
                 }
             }else if (move.getStatusCondition() == StatusCondition.PARALYZE){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.paralyze();
-                    System.out.printf("%s terkena status condition paralyze.\n", target.getName());
+                    System.out.printf("%s (Monster %s) terkena status condition paralyze.\n", target.getName(), player2.getName());
                 }else{
-                    System.out.printf("% telah memiliki status condition lain.\n", target.getName());
+                    System.out.printf("% (Monster %s) telah memiliki status condition lain.\n", target.getName(), player2.getName());
                 }
             }else if (move.getStatusCondition() == StatusCondition.SLEEP){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.sleep();
-                    System.out.printf("%s terkena status condition sleep selama %d turn.\n", target.getName(), target.getnumsleep() - 1);
+                    System.out.printf("%s (Monster %s) terkena status condition sleep selama %d turn.\n", target.getName(), player2.getName(), target.getnumsleep() - 1);
                 }else{
-                    System.out.printf("% telah memiliki status condition lain.\n", target.getName());
+                    System.out.printf("% (Monster %s) telah memiliki status condition lain.\n", target.getName(), player2.getName());
                 }
             }
             //ngasih pengaruh ke statsbuff lawan
