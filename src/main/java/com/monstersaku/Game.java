@@ -405,7 +405,7 @@ public class Game {
                 }
                 for(int i = 0; i < current.getListMon().size(); i++){
                     Monster mons = current.getListMon().get(i);
-                    if(chosenmonsidx == i && !valid){
+                    if(chosenmonsidx == i && !valid && !mons.equals(chosen)){
                         if(!mons.isMonsDead()){
                             chosen = mons;
                             valid = true;
