@@ -411,6 +411,24 @@ public class Game {
         }
     }
 
+    //tuker monsternya
+    public boolean replaceMon(Player current, Player other, Scanner input){
+        //return true kalo monster terganti
+        boolean switched = false;
+        if(current.getCurrentMonster().isMonsDead()){
+            if(!current.isNoMoreMonsterAvailable()){
+                //masih ada monster lain yang masih hidup
+                Monster replacement = chooseMonster(current, other, input);
+                current.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
+                current.switchCurrMonster(replacement);
+                switched = true;
+            }else{
+                System.out.printf("Oh tidak! Monster terakhir %s sudah mati!\n", current.getName());
+            }
+        }
+        return switched;
+    }
+
     //Pilih Move
     public Move chooseMove(Player current, Player other, Move chosen, Scanner input){
         if(current.getCurrentMonster().isAllMovesUnavailable()){
@@ -531,22 +549,5 @@ public class Game {
         System.out.println("Congratulationss!!");
         System.out.printf("The winner is : %s!!\n", winner.getName());
         exit();
-    }
-
-    public boolean replaceMon(Player current, Player other, Scanner input){
-        //return true kalo monster terganti
-        boolean switched = false;
-        if(current.getCurrentMonster().isMonsDead()){
-            if(!current.isNoMoreMonsterAvailable()){
-                //masih ada monster lain yang masih hidup
-                Monster replacement = chooseMonster(current, other, input);
-                current.getCurrentMonster().getbaseStats().getStatsBuff().resetbuff();
-                current.switchCurrMonster(replacement);
-                switched = true;
-            }else{
-                System.out.printf("Oh tidak! Monster terakhir %s sudah mati!\n", current.getName());
-            }
-        }
-        return switched;
     }
 }
