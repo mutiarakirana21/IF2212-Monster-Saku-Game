@@ -173,7 +173,7 @@ public class Monster {
 
     public void paralyze(){
         this.statcon = StatusCondition.PARALYZE;
-        baseStats.setSpeed(baseStats.getSpeed() / 2);
+        baseStats.setSpeed((double) baseStats.getSpeed() / 2);
     }
     //number yang dihasilkan menunjukan kemungkinan monster skip ronde (co: number 1 monster skip, 234 tidak skip)
 
