@@ -157,17 +157,17 @@ public class Monster {
     
     public void sleep(){
         Random dice = new Random();
-        int number = 2 + dice.nextInt(7);
+        int number = 1 + dice.nextInt(7);
         this.sleep = number;
         this.statcon = StatusCondition.SLEEP;
     }
     
-    public void sleepdecr(){
+    public void sleepdecr(Player player){
         sleep--;
         if(sleep == 0){
             //udah di turn terakhir
             statcon = StatusCondition.NOTHING;
-            System.out.printf("Monster %s sudah bebas dari condition sleep. Silakan gunakan!", this.getName());
+            System.out.printf("\nMonster %s (Monster %s) sudah bebas dari condition sleep. Silakan gunakan!\n", this.getName(), player.getName());
         }
     }
 

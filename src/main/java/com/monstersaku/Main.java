@@ -131,9 +131,9 @@ public class Main {
         Game game = new Game();
         Scanner input = new Scanner(System.in);
         game.start(input);
-        System.out.println("Masukkan nama pemain 1: ");
+        System.out.printf("Masukkan nama pemain 1: ");
         String name1 = input.nextLine();
-        System.out.println("\nMasukkan nama pemain 2: ");
+        System.out.printf("\nMasukkan nama pemain 2: ");
         String name2 = input.nextLine();
         game.space();
         ArrayList<Monster> ListMonsP1 = new ArrayList<Monster>();
@@ -245,10 +245,13 @@ public class Main {
             //giliran player1
             game.space();
             game.newTurn(player1, player2);
+            game.afterSleep(player1);
+            game.afterSleep(player2);
             boolean valid1 = false;
             String action1 = "";
             while(!valid1){
                 game.whatToDo(player1);
+                System.out.printf("\nMasukkan command : ");
                 action1 = game.ingamegetinput(input, player1, player2);
                 if(action1.equals("1") || action1.equals("2")){
                     valid1 = true;
@@ -278,8 +281,9 @@ public class Main {
             String action2 = "";
             while(!valid2){
                 game.whatToDo(player2);
+                System.out.printf("\nMasukkan command : ");
                 action2 = game.ingamegetinput(input, player1, player2);
-                if(action1.equals("1") || action1.equals("2")){
+                if(action2.equals("1") || action2.equals("2")){
                     valid2 = true;
                 }
             }
