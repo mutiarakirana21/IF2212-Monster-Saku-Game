@@ -202,7 +202,7 @@ public class StatsBuff {
     public boolean canChange(){
         //ngehasilin false kalo udah gabisa lg diubah stats buffnya
         boolean can = true;
-        if((attackBuff > 4) || (attackBuff < -4) || (defenseBuff > 4) || (defenseBuff < -4) || (spAttBuff > 4) || (spAttBuff < -4) || (spDefBuff > 4) || (spDefBuff < -4) || (speedBuff > 4) || (speedBuff < -4)){
+        if((attackBuff == 4) || (attackBuff == -4) || (defenseBuff == 4) || (defenseBuff == -4) || (spAttBuff == 4) || (spAttBuff == -4) || (spDefBuff == 4) || (spDefBuff == -4) || (speedBuff == 4) || (speedBuff == -4)){
             can = false;
         }
         return can;
