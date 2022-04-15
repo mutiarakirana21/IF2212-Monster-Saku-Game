@@ -27,7 +27,7 @@ id;name;elementTypes;baseStats;moves
 26;Chansey;NORMAL;250,5,5,35,105,50;1,2,3,4,5,6,7,8
 27;Tangela;GRASS;65,55,115,100,40,60;1,2,3,4,5,6,7,8
 28;Kangaskhan;NORMAL;105,95,80,40,80,90;1,2,3,4,5,6,7,8
-29;KangaskhanMega Kangaskhan;NORMAL;105,125,100,60,100,100;1,2,3,4,5,6,7,8
+29;Mega Kangaskhan;NORMAL;105,125,100,60,100,100;1,2,3,4,5,6,7,8
 30;Horsea;WATER;30,40,70,70,25,60;1,2,3,4,5,6,7,8
 31;Seadra;WATER;55,65,95,95,45,85;1,2,3,4,5,6,7,8
 32;Goldeen;WATER;45,67,60,35,50,63;1,2,3,4,5,6,7,8

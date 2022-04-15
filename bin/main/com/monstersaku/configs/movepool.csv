@@ -5,5 +5,6 @@ id,moveType;name;elementType;accuracy;priority;ammunition;target;effect
 4;STATUS;Heal;NORMAL;90;1;10;OWN;-;25,0,0,0,0,0
 5;STATUS;Taunting;NORMAL;90;1;10;ENEMY;-;0,0,-1,0,-1,0
 6;STATUS;bobo;NORMAL;90;1;10;ENEMY;SLEEP;0,0,0,0,0,0
-7;STATUS;racun;NORMAL;90;1;10;ENEMY;POISON;0,0,0,0,0,0
+7;STATUS;Toxic;NORMAL;90;1;10;ENEMY;POISON;0,0,0,0,0,0
 8;STATUS;gabisa gerak;NORMAL;90;1;10;ENEMY;PARALYZE;0,0,0,0,0,0
+9;STATUS;Work Up;NORMAL;90;1;10;OWN;-;0,1,0,1,0,0

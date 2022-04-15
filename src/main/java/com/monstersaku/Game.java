@@ -323,14 +323,14 @@ public class Game {
                     target.paralyze();
                     System.out.printf("%s (Monster %s) terkena status condition paralyze.\n", target.getName(), player2.getName());
                 }else{
-                    System.out.printf("% (Monster %s) telah memiliki status condition lain.\n", target.getName(), player2.getName());
+                    System.out.printf("%s (Monster %s) telah memiliki status condition lain.\n", target.getName(), player2.getName());
                 }
             }else if (move.getStatusCondition() == StatusCondition.SLEEP){
                 if (target.getStatcon() == StatusCondition.NOTHING){
                     target.sleep();
                     System.out.printf("%s (Monster %s) terkena status condition sleep selama %d turn.\n", target.getName(), player2.getName(), target.getnumsleep());
                 }else{
-                    System.out.printf("% (Monster %s) telah memiliki status condition lain.\n", target.getName(), player2.getName());
+                    System.out.printf("%s (Monster %s) telah memiliki status condition lain.\n", target.getName(), player2.getName());
                 }
             }
             //ngasih pengaruh ke statsbuff lawan
